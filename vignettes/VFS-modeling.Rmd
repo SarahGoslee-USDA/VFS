@@ -1,0 +1,93 @@
+---
+title: "Modeling Erosion and Vegetated Filter Strips"
+author: "Sarah Goslee, Heather Gall, and Tamie Veith"
+date: "2018-04-24"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modeling Erosion and Vegetated Filter Strips}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+  library(VFS)
+```
+
+Vegetated filter strips (VFS) are a best management practice used to trap sediment in agricultural runoff along rivers and streams. The `VFS` package implements the vegetated filter strip model of Haan et al. (1994) in R. The code was used by Gall et al. (2018) in their study of sediment trapping efficiency calculations. 
+
+This model simulates runoff and erosion from an agricultural field of specified slope and soil texture, into a vegetated filter strip of specified vegetation type. There are options to store soil water or not, mainly for research and testing purposes. 
+
+## Climate simulation
+
+The `VFS` package includes a simple daily rainfall and temperature generation. The parameters needed can be calculated from daily weather data for the chosen site. The `read.dly` function simplifies the import of GHCN weather station data, and the function `wth.param` can calculate the needed parameters from this or other daily weather data. 
+
+Note that leap days are removed from the data, if present, before the parameters are calculated.
+
+```{r weathgen, echo=TRUE, fig.show="hold", width=6, height=6}
+
+	# state college GHCN data
+	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	weather.param <- wth.param(weather)
+
+	rain.compare <- rainfall(365*5, weather.param)
+	temp.compare <- temperature(365*5, weather.param)
+
+	barplot(rain.compare, col="blue", ylab="Rainfall (mm)")
+	plot(temp.compare, col="red", ylab="Temperature (C)", type="l", xaxt="n")
+	axis(1, at=(0:5 * 365), labels=paste("Year", 1:6))
+```
+
+
+## Description of model
+
+More about the model here.
+
+```{r vfs, echo=TRUE, fig.show="hold"}
+
+	data(soildat)
+	data(bufferdat)
+
+	# bluegrass buffer, clay loam soil
+	vfs.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
+
+	vfs.CL
+
+	unlist(summary(vfs.CL))
+
+```
+
+The model can be run to calculate erosion only, without a VFS. The `print` and `summary` methods show only the relevant information.
+
+```{r erosion, echo=TRUE, fig.show="hold"}
+
+	erosion.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
+
+	erosion.CL
+
+	unlist(summary(erosion.CL))
+
+```
+
+
+The `VFS` package comes with basic parameters for all 12 soil classes, and it's easy to run the model for all of them.
+
+```{r soils, , echo=TRUE, fig.show="hold"}
+
+
+# Run the model for all twelve soil texture classes with default arguments
+	vfs.AllSoil <- lapply(seq_len(nrow(soildat)), function(i)VFSsim(nyears = 5, thissoil = soildat[i,], rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
+
+```
+
+
+## References
+
+Haan C.T., Barfield B.J., Hayes J.C. 1994. Design hydrology and sedimentology for small catchments. Acad. Press, San Diego
+
+Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj, C., and Patterson, P.H. 2018. The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. Stoch Environ Res Risk Assess https://doi.org/10.1007/s00477-017-1505-x."
+
