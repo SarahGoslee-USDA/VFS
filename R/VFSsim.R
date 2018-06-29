@@ -411,9 +411,9 @@ function(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp, Duration 
             Ftannualavg <- apply(Ftannual, 1, function(x)mean(x[x > 0])) * 100
             Ftannualstdev <- apply(Ftannual, 1, function(x)sd(x[x > 0])) * 100
 
-            AnnualLoadIn[runoffannual == 0] <- NA
-            AnnualLoadOut[runoffannual == 0] <- NA
-            AnnualRemovalEfficiency[runoffannual == 0] <- NA
+            AnnualLoadIn[runoffannual == 0, ] <- NA
+            AnnualLoadOut[runoffannual == 0, ] <- NA
+            AnnualRemovalEfficiency[runoffannual == 0, ] <- NA
 
 
         } else {
