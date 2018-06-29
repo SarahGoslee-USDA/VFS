@@ -17,7 +17,7 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
 	Number of years to simulate.
 }
   \item{thissoil}{
-	Soil properties for the site, as from bufferdat.
+	Soil properties for the site, as from soildat.
 }
   \item{thisclimate}{
 	Climate parameters for the simulated site, as produced by wth.param.
