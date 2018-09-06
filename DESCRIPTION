@@ -1,13 +1,13 @@
 Package: VFS
 Title: Vegetated Filter Strip and Erosion Model
-Version: 0.9.2
-Date: 2018-06-29
+Version: 0.9.3
+Date: 2018-09-06
 Authors@R: c(person("Sarah", "Goslee", role = c("aut", "cre"),
                      email = "Sarah.Goslee@ars.usda.gov"),
               person("Heather", "Gall", role = "aut"),
 			  person("Tamie", "Veith", role = "aut"))
 Depends: R (>= 3.4.0)
-Imports: stats, graphics, nleqslv (>= 3.3.0)
+Imports: stats, graphics, e1071, nleqslv (>= 3.3.0)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 Description: A model for erosion and runoff across a vegetated filter strip,
