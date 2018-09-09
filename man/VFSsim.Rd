@@ -44,10 +44,10 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
 	slope (m/m)
 }
   \item{z}{
-	rooting zone depth (mm)
+	rooting zone depth (mm). Default is 3 m (3000 mm).
 }
   \item{b}{
-	flow parameter
+	Empirical parameter that relates concentration and flow in the concentration-discharge relationship, C = aQ^b. Values used in the code are 0.5, 1, 1.5, and 2.5.
 }
   \item{carrysoilwater}{
 	Boolean describing whether to store soil water; if FALSE, soil is always at field capacity.
@@ -63,17 +63,27 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
 
 Returns an object of class VFS, comprising:
 
-	\item{dat }{}
-	\item{Conc }{}
-	\item{Load }{}
-	\item{MassRemoved }{}
-	\item{MassOut }{}
-	\item{AnnualLoadIn }{}
-	\item{AnnualLoadOut }{}
-	\item{AnnualRemovalEfficiency }{}
+	\item{dat }{
+	Daily output of all public variables that change as a function of time}
+	\item{Conc }{
+	Sediment concentration (in mass/volume) as calculated by the relationship C = aQ^b; specific units depend on units conversions lumped into the value of a. Here, simulation results make the most sense when interpreted as g/L}
+	\item{Load }{
+	Sediment load (mass) as calculated by multiplying concentration and runoff volume. If concentration is assumed to be in g/L, then the load is calculated in g}
+	\item{MassRemoved }{
+	Sediment mass that remains in the vegetated filter strip at the end of a runoff event}
+	\item{MassOut }{
+	Sediment mass that leaves the vegetated filter strip at the end of a runoff event (i.e., the mass that is not removed)}
+	\item{AnnualLoadIn }{
+	Sum of the sediment loads entering the vegetated filter strip over the course of one year}
+	\item{AnnualLoadOut }{
+	Sum of the sediment loads leaving the vegetated filter strip over the course of one year}
+	\item{AnnualRemovalEfficiency }{
+	The removal effficiency of the vegetated filter strip at an annual time scale, calculated as (Annual Load In - Annual Load Out)/Annual Load In }
 	\item{Ftannual }{}
-	\item{Ftannualavg }{}
-	\item{Ftannualstdev }{}
+	\item{Ftannualavg }{
+	The average of all per-event trapping efficiencies over the course of one year}
+	\item{Ftannualstdev }{
+	The standard deviation of all per-event trapping efficiencies over the course of one year}
 }
 \references{
 
@@ -84,7 +94,7 @@ Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj,
 
 }
 \author{
-	Heather Gall and Sarah Goslee
+	Sarah Goslee, Heather Gall, and Tamie Veith
 }
 
 \seealso{
