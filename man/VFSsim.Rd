@@ -40,6 +40,9 @@ VFSsim(nyears = 1000, thissoil, thisbuffer, rain, temperature,
   \item{VFSslope}{
 	slope (m/m)
 }
+  \item{FieldSlope}{
+	Optional field slope (m/m). If missing, VFSslope will be used.
+}
   \item{z}{
 	rooting zone depth (mm)
 }
@@ -96,7 +99,7 @@ Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj,
 
 	# state college GHCN data
 	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	weather.param <- wth.param(weather)
+	weather.param <- wth.param(weather, method="markov")
 
 	rain.compare <- rainfall(365*10, weather.param)
 	temp.compare <- temperature(365*10, weather.param)

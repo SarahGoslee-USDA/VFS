@@ -1,5 +1,5 @@
 VFSsim <-
-function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, a = 1, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE) {
+function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, FieldSlope, z = 1000, a = 1, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE) {
 
     # nyears: number of years to simulate
     # thissoil: soil properties, for instance a row of soildat
@@ -31,6 +31,15 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     ## convert buffer width to ft
     VFSwidth <- 3.28084 * VFSwidth
 
+    ## Assume a square field
+    FieldLength <- sqrt(FieldArea)
+    FieldLength <- 3.28084 * FieldLength
+
+    ## If field slope isn't specified, use VFS slope
+    if(missing(FieldSlope)) FieldSlope <- VFSslope
+
+    ## Estimate MUSLE LS factor
+    LS <- MUSLE.LS(FieldLength, FieldSlope)
 
     ###################################################################
 
@@ -55,6 +64,9 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     fc <- thissoil$fc  # Fraction of particles >0.037mm
     fm <- thissoil$fm  # Fraction of particles 0.004 to 0.037mm
     ff <- thissoil$ff  # Fraction of particles<0.004mm
+
+    # Estimate MUSLE K factor
+    Kf <- MUSLE.K(fc, fm, ff)
 
     ## Also set up Blaney-Criddle parameters p and kc (crop coefficient)
     ## vector of monthly parameters by day
@@ -139,6 +151,10 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     # convert intensity to mm/d
     intensity <- rain/Duration
 
+    # add MUSLE calculation
+    peakflow <- rep(NA, Tmax)
+    musle <- rep(NA, Tmax)
+
     ###################################################################
     
 
@@ -220,8 +236,16 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
 	    Q[i] <- runoff[i]/1000*FieldArea	#m^3/day
 	    Q[i] <- Q[i] * 35.3147              #Convert to ft^3/day
 	    Q[i] <- Q[i] / (Duration * 24) / 3600            #Convert to ft^3/sec
+
+        thisrunoff <- runoff[i]/1000*FieldArea # m3
+        thisarea <- FieldArea/10000 # ha
+        peakflow[i] <- peak(thisrunoff / Duration, thisarea)
+
+        musle[i] <- MUSLE(thisrunoff, peakflow[i], thisarea, K = Kf, LS = LS)
+
 	} else {
 	    Q[i] <- 0
+        musle[i] <- 0
 	}
 
 
@@ -288,6 +312,10 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     ###################################################################
 
 
+    ## Two methods for determining sediment: C-Q and MUSLE
+    ## C-Q was used in Gall et al. 2018
+
+
     ## Determine Sediment Load
     #C <- aQ^b
 
@@ -306,8 +334,9 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
         Conc <- data.frame(sapply(b, function(x){a * Q ^ x}))
         colnames(Conc) <- bnames
 
-        Load <- data.frame(sweep(Conc, 1, Volume, "*")) # mg?
+        Load <- data.frame(sweep(Conc, 1, Volume, "*")) 
         colnames(Load) <- bnames
+        Load <- Load / (1000*1000)
 
         AnnualLoadIn <- aggregate(Load, by=list(date.Year), sum)[, -1, drop = FALSE]
         colnames(AnnualLoadIn) <- bnames
@@ -368,6 +397,7 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
  
         Load <- data.frame(dat = Conc * Volume) # mg?
         colnames(Load) <- bnames
+        Load <- Load / (1000*1000)
 
         AnnualLoadIn <- aggregate(Load, by=list(date.Year), sum)[, -1, drop = FALSE]
         colnames(AnnualLoadIn) <- bnames
@@ -421,9 +451,50 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     }
 
 
-    ## Annual Calculations
+    # Repeat VFS calculations with MUSLE erosion values
 
-    output <- list(daily = data.frame(rain=rain, temperature=temperature, S=S, kt=kt, ET=ET, intensity=intensity, runoff=runoff, Q=Q, fd=fd, R=R, Vm=Vm, Re=Re, Va=Va, Nfc=Nfc, Nfm=Nfm, Nff=Nff, fdc=fdc, fdm=fdm, fdf=fdf, Ft=Ft), field=c(clay=ff, area=FieldArea), Conc=Conc, Load=Load, MassRemoved=MassRemoved, MassOut=MassOut, AnnualLoadIn=AnnualLoadIn, AnnualLoadOut=AnnualLoadOut, AnnualRemovalEfficiency=AnnualRemovalEfficiency, Ftannual=Ftannual, Ftannualavg=Ftannualavg, Ftannualstdev=Ftannualstdev)
+
+
+    AnnualLoadInMUSLE <- aggregate(musle, by=list(date.Year), sum)[, -1, drop = FALSE]
+
+    if(!all(is.na(thisbuffer))) {
+
+        # VFS model
+
+        MassRemovedMUSLE <-  data.frame(dat = musle * Ft)
+
+        MassOutMUSLE <- musle - MassRemovedMUSLE
+
+        AnnualLoadOutMUSLE <- aggregate(MassOutMUSLE, by=list(date.Year), sum)[, -1, drop = FALSE]
+
+        AnnualRemovalEfficiencyMUSLE <- (1 - AnnualLoadOutMUSLE/AnnualLoadInMUSLE) * 100
+        AnnualRemovalEfficiencyMUSLE[is.na(AnnualRemovalEfficiencyMUSLE)] <- 0
+
+        AnnualLoadInMUSLE[runoffannual == 0, ] <- NA
+        AnnualLoadOutMUSLE[runoffannual == 0, ] <- NA
+        AnnualRemovalEfficiencyMUSLE[runoffannual == 0, ] <- NA
+
+
+    } else {
+
+        # erosion only model
+    
+        MassRemovedMUSLE <- data.frame(var = rep(NA, length(musle)))
+
+        MassOutMUSLE <- MassRemovedMUSLE
+
+        AnnualLoadOutMUSLE <- MassRemovedMUSLE
+
+        AnnualRemovalEfficiencyMUSLE <- MassRemovedMUSLE
+ 
+    }
+
+
+    ## Annual Calculations
+    AnnualRainfall <- aggregate(rain, by=list(date.Year), sum)[, -1, drop = FALSE]
+    AnnualRunoff <- aggregate(runoff, by=list(date.Year), sum)[, -1, drop = FALSE]
+
+    output <- list(daily = data.frame(rain=rain, temperature=temperature, S=S, kt=kt, ET=ET, intensity=intensity, runoff=runoff, Q=Q, fd=fd, R=R, Vm=Vm, Re=Re, Va=Va, Nfc=Nfc, Nfm=Nfm, Nff=Nff, fdc=fdc, fdm=fdm, fdf=fdf, Ft=Ft, peakflow=peakflow, MUSLE=musle), field=c(clay=ff, area=FieldArea), AnnualRainfall=AnnualRainfall, AnnualRunoff=AnnualRunoff, Conc=Conc, Load=Load, MassRemoved=MassRemoved, MassOut=MassOut, AnnualLoadIn=AnnualLoadIn, AnnualLoadOut=AnnualLoadOut, AnnualRemovalEfficiency=AnnualRemovalEfficiency, MassRemovedMUSLE=MassRemovedMUSLE, MassOutMUSLE=MassOutMUSLE, AnnualLoadInMUSLE=AnnualLoadInMUSLE, AnnualLoadOutMUSLE=AnnualLoadOutMUSLE, AnnualRemovalEfficiencyMUSLE=AnnualRemovalEfficiencyMUSLE, Ftannual=Ftannual, Ftannualavg=Ftannualavg, Ftannualstdev=Ftannualstdev)
 
     class(output) <- "VFS"
 
