@@ -3,7 +3,7 @@ function(object, ...) {
 # summarizes a VFS object
 # averages across all b values
 
-    runoff <- matrix(object$dat$runoff, nrow=365, byrow=FALSE)
+    runoff <- matrix(object$daily$runoff, nrow=365, byrow=FALSE)
     runoff[runoff > 0] <- 1
 
 
@@ -45,7 +45,7 @@ function(object, ...) {
 
         RunoffDayssd = sd(colSums(runoff)),
 
-        Days = nrow(object$dat))
+        Days = nrow(object$daily))
         
     } else {
     list(
@@ -57,7 +57,7 @@ function(object, ...) {
 
         RunoffDayssd = sd(colSums(runoff)),
 
-        Days = nrow(object$dat))
+        Days = nrow(object$daily))
         
     }
 

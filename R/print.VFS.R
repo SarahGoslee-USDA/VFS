@@ -1,7 +1,7 @@
 print.VFS <-
 function(x, ...) {
 # prints a short summary of VFS x
-    nyears <- nrow(x$dat)/365
+    nyears <- nrow(x$daily)/365
 
     if(all(is.na(x$MassOut))) 
         modeltype <- "Erosion"

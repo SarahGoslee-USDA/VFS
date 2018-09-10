@@ -4,28 +4,20 @@
 	Generate simulated mean temperature
 }
 \description{
-	Generates simulated daily rainfall based on parameters derived from daily weather data.
+	Generates simulated daily temperature minimum and maximum based on parameters derived from daily weather data.
 }
 \usage{
-	temperature(ndays, thiswth, A, B, C)
+	temperature(ndays, thiswth)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{ndays}{
 	number of days to simulate
 }
   \item{thiswth}{
-	list output of \code{wth.param}
+	list output of \code{wth.param}. 
 }
-  \item{A}{
-	Mean annual temperature (C). Not used if thiswth is supplied.
-}
-  \item{B}{
-	Temperature half-amplitude (C). Not used if thiswth is supplied.
-}
-  \item{C}{
-	Day of the year with minimum temperature (DOY). Not used if thiswth is supplied.
-}
+
 }
 
 \value{
@@ -48,15 +40,16 @@
 	\code{\link{rainfall}}
 }
 \examples{
-
-	# state college GHCN data
+	# A sample GHCN daily weather file for State College, PA, is included with this package.
+	# This file contains a subset of data (1980-2009) for station USC00368449
 	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	weather.param <- wth.param(weather)
-	
-	temp1 <- temperature(365, weather.param)
 
-	# increase temperature
-	temp2 <- temperature(365, A = weather.param$A + 5, B = weather.param$B, C = weather.param$C)
+	# calculate parameters for the poisson model, using 0.3 mm as the lower limit for wet days.
+	weather.param.p <- wth.param(weather, method = "poisson", llim = 0.3)
+
+	# simulate 10 years of temperature
+	temp10 <- temperature(365*10, weather.param.p)
+
 }
 
 \keyword{ datagen }

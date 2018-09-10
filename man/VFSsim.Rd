@@ -7,7 +7,7 @@
 	Simulated erosion and runoff given climate and soil texture, with or without a vegetated filter strip in place.
 }
 \usage{
-VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp, 
+VFSsim(nyears = 1000, thissoil, thisbuffer, rain, temperature, 
   Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
   z = 1000, b = c(0.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE)
 }
@@ -19,17 +19,14 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
   \item{thissoil}{
 	Soil properties for the site, as from soildat.
 }
-  \item{thisclimate}{
-	Climate parameters for the simulated site, as produced by wth.param.
-}
   \item{thisbuffer}{
 	Vegetation properties for the buffer strip, as from bufferdat.
 }
   \item{rain}{
-	Daily rainfall (mm). If missing, simulated using parameters in thisclimate.
+	Daily rainfall (mm).
 }
-  \item{Temp}{
-	Daily mean temperature (C). If missing, simulated using parameters in thisclimate.
+  \item{temperature}{
+	Daily mean temperature (C).
 }
   \item{Duration}{
 	Rainfall event length. Default is 2 hours.
@@ -46,8 +43,11 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
   \item{z}{
 	rooting zone depth (mm)
 }
+  \item{a}{
+	flow parameter: intercept of the C-Q relationship.
+}
   \item{b}{
-	flow parameter
+	flow parameter: slope of the C-Q relationship.
 }
   \item{carrysoilwater}{
 	Boolean describing whether to store soil water; if FALSE, soil is always at field capacity.
@@ -57,13 +57,15 @@ VFSsim(nyears = 1000, thissoil, thisclimate, thisbuffer, rain, Temp,
 }
 }
 \details{
-	To be added.
+	Blaney-Criddle coefficients for erosion from a cornfield are hard-coded; a future update will allow for varying the type of field.
+
 }
 \value{
 
 Returns an object of class VFS, comprising:
 
-	\item{dat }{}
+	\item{daily }{}
+	\item{field }{Data on the field being modeled: area, clay content}
 	\item{Conc }{}
 	\item{Load }{}
 	\item{MassRemoved }{}
@@ -104,7 +106,7 @@ Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj,
 
 	# bluegrass buffer, clay loam soil
 	vfs.CL <- VFSsim(nyears = 10, thissoil = subset(soildat, Soil == "CL"), 
-	rain=rain.compare, Temp=temp.compare, 
+	rain=rain.compare, temperature=temp.compare, 
 	thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
 	FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
 	z = 1000, b = c(.5, 1, 1.5, 2.5))

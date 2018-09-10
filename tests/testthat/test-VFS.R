@@ -3,7 +3,7 @@ library(VFS)
 
 # import weather data 1980-2009
 weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-weather.param  <- wth.param(weather)
+weather.param  <- wth.param(weather, method="poisson")
 
 data(soildat)
 data(bufferdat)

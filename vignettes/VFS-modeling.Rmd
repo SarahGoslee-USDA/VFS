@@ -32,7 +32,7 @@ Note that leap days are removed from the data, if present, before the parameters
 
 	# state college GHCN data
 	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	weather.param <- wth.param(weather)
+	weather.param <- wth.param(weather, method="markov")
 
 	rain.compare <- rainfall(365*5, weather.param)
 	temp.compare <- temperature(365*5, weather.param)
@@ -53,7 +53,7 @@ More about the model here.
 	data(bufferdat)
 
 	# bluegrass buffer, clay loam soil
-	vfs.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
+	vfs.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, temperature=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
 
 	vfs.CL
 
@@ -65,7 +65,7 @@ The model can be run to calculate erosion only, without a VFS. The `print` and `
 
 ```{r erosion, echo=TRUE, fig.show="hold"}
 
-	erosion.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
+	erosion.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, temperature=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
 
 	erosion.CL
 
@@ -80,7 +80,7 @@ The `VFS` package comes with basic parameters for all 12 soil classes, and it's 
 
 
 # Run the model for all twelve soil texture classes with default arguments
-	vfs.AllSoil <- lapply(seq_len(nrow(soildat)), function(i)VFSsim(nyears = 5, thissoil = soildat[i,], rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
+	vfs.AllSoil <- lapply(seq_len(nrow(soildat)), function(i)VFSsim(nyears = 5, thissoil = soildat[i,], rain=rain.compare, temperature=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
 
 ```
 

@@ -4,10 +4,10 @@ library(VFS)
 # import weather data 1980-2009
 weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
 
-delnone     <- wth.param(weather)
-delstart    <- wth.param(weather[-c(1,2,3), ])
-delend      <- wth.param(weather[-nrow(weather), ])
-delboth     <- wth.param(weather[-c(1, 2, 3, nrow(weather)), ])
+delnone     <- wth.param(weather, method="poisson")
+delstart    <- wth.param(weather[-c(1,2,3), ], method="poisson")
+delend      <- wth.param(weather[-nrow(weather), ], method="poisson")
+delboth     <- wth.param(weather[-c(1, 2, 3, nrow(weather)), ], method="poisson")
 
 test_that("partial years are deleted", {
     expect_equal(delnone$start, 1980)
@@ -30,13 +30,13 @@ wthfake <- data.frame(weather[367:(366+365), 1:3],
     TMAX.VALUE = 1 + rev(sin(seq(0, 2 * pi, length = 365))),
     TMIN.VALUE = rev(sin(seq(0, 2 * pi, length = 365))))
 
-wthfake.params <- wth.param(wthfake)
+wthfake.params <- wth.param(wthfake, method = "poisson")
                       
 test_that("parameter values are correct", {
-    expect_equal(round(wthfake.params$lambda, 7), 0.7484663)
-    expect_equal(round(wthfake.params$d, 6), 9.792079)
-    expect_equal(round(wthfake.params$A, 1), 0.5)
-    expect_equal(round(wthfake.params$B, 1), 0.5)
-    expect_equal(round(wthfake.params$C, 0), 92)
+    expect_equal(round(wthfake.params$params$lambda, 7), 0.7484663)
+    expect_equal(round(wthfake.params$params$d, 6), 9.792079)
+    expect_equal(round(wthfake.params$params$A, 1), 0.5)
+    expect_equal(round(wthfake.params$params$B, 1), 0.5)
+    expect_equal(round(wthfake.params$params$C, 0), 92)
 })
 
