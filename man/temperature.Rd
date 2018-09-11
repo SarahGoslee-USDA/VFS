@@ -42,7 +42,11 @@
 \examples{
 	# A sample GHCN daily weather file for State College, PA, is included with this package.
 	# This file contains a subset of data (1980-2009) for station USC00368449
-	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	#
+	# import is slow: 
+	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	data("weather") # same object
+
 
 	# calculate parameters for the poisson model, using 0.3 mm as the lower limit for wet days.
 	weather.param.p <- wth.param(weather, method = "poisson", llim = 0.3)

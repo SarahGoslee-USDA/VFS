@@ -1,4 +1,4 @@
-VFSsim <-
+VFS <-
 function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, FieldSlope, z = 1000, a = 1, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE) {
 
     # nyears: number of years to simulate
@@ -32,8 +32,8 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
     VFSwidth <- 3.28084 * VFSwidth
 
     ## Assume a square field
-    FieldLength <- sqrt(FieldArea)
-    FieldLength <- 3.28084 * FieldLength
+    FieldLength <- sqrt(FieldArea) #m2
+    FieldLength <- 3.28084 * FieldLength # ft
 
     ## If field slope isn't specified, use VFS slope
     if(missing(FieldSlope)) FieldSlope <- VFSslope

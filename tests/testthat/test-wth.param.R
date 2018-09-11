@@ -35,8 +35,8 @@ wthfake.params <- wth.param(wthfake, method = "poisson")
 test_that("parameter values are correct", {
     expect_equal(round(wthfake.params$params$lambda, 7), 0.7484663)
     expect_equal(round(wthfake.params$params$d, 6), 9.792079)
-    expect_equal(round(wthfake.params$params$A, 1), 0.5)
-    expect_equal(round(wthfake.params$params$B, 1), 0.5)
-    expect_equal(round(wthfake.params$params$C, 0), 92)
+    expect_equal(round(wthfake.params$temperature$A, 1), 0.5)
+    expect_equal(round(wthfake.params$temperature$B, 1), 0.5)
+    expect_equal(round(wthfake.params$temperature$C, 0), 92)
 })
 

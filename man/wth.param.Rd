@@ -45,30 +45,7 @@
 }
 
 \value{
-	\itemize{params}{Parameters for simulating long-term point rainfall.
-		For \code{method = "poisson"}, parameters are:
-			\item{lambda }{Mean rainfall inter-arrival frequency (d-1)}
-			\item{depth }{Mean rainfall depth (mm)}
-			\item{A }{Mean annual temperature (C)}
-			\item{B }{Temperature half-amplitude (C)}
-			\item{C }{Day of the year with minimum temperature (DOY)}
-			\item{start }{First full year of the weather data}
-			\item{end }{Last full year of the weather data}
-	}
-	\itemize{params}{For \code{method = "markov"}, return value is a data frame with one row per month and columns:
-		\item{tmin}{minimum temperature}
-		\item{tminsd}{maximum temperature}
-		\item{tmax}{minimum temperature standard deviation}
-		\item{tmaxsd}{maximum temperature standard deviation}
-		\item{prcp}{monthly precipitation}
-		\item{prcpmean}{mean size of a precipitation event}
-		\item{prcpmax}{maximum size of a precipitation event}
-		\item{prcpsd}{standard deviation of precipitation event sizes}
-		\item{prcpskew}{skew of precipitation event sizes}
-		\item{prcpwet}{number of wet days (greater than \code{llim}}
-		\item{prcpww}{probability of a wet day following a wet day}
-		\item{prcpdw}{probability of a wet day following a dry day}
-	}
+	\item{params}{Parameters for simulating long-term point rainfall.  }
 	\item{temperature}{Parameters for simulating long-term daily temperature.}
 	\item{llim}{Minimum daily rainfall for a wet day.}
 	\item{start}{First full year of weather data}
@@ -95,7 +72,10 @@
 
 	# GHCN daily weather file for State College, PA
 	# subset of data (1980-2009) for station USC00368449
-	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	#
+	# import is slow: 
+	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	data("weather") # same object
 
 	# calculate parameters for the poisson model
 	# using 0.3 mm as the lower limit for wet days.

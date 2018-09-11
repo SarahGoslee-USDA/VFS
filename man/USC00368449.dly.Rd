@@ -20,6 +20,9 @@
 \examples{
 	# A sample DLY file for State College, PA, is included with this package.
 	# This file contains a subset of data (1980-2009) for station USC00368449
-	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	#
+	# import is slow: 
+	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	data("weather") # same object
 }
 \keyword{datasets}
