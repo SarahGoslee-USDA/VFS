@@ -1,7 +1,7 @@
 Package: VFS
 Title: Vegetated Filter Strip and Erosion Model
-Version: 0.9.3-1
-Date: 2018-09-06
+Version: 0.9.3-2
+Date: 2018-09-11
 Authors@R: c(person("Sarah", "Goslee", role = c("aut", "cre"),
                      email = "Sarah.Goslee@ars.usda.gov"),
               person("Heather", "Gall", role = "aut"),

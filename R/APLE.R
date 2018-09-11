@@ -28,7 +28,8 @@ runoffL <- (runoff * 25.4) / 10 * 100^4 / 1000
 erosion <- erosion * 2000 / 2.205 * 2.471
 
 # erosion enrichment ratio
-eer <- ifelse(erosion == 0, 0, max(exp(2.2 - 0.25 * log(erosion)), 1))
+eer <- ifelse(erosion == 0, 0, pmax(exp(2.2 - 0.25 * log(erosion)), 1))
+eer[is.na(eer)] <- 0
 
 # soil dissolved P extraction coefficient: default 0.005
 Pcoef <- 0.005

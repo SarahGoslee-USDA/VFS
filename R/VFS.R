@@ -1,5 +1,5 @@
 VFS <-
-function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, FieldSlope, z = 1000, a = 1, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE) {
+function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, FieldSlope, z = 1000, a = 1, b = 1.5, carrysoilwater = TRUE, runoffcalc = TRUE) {
 
     # nyears: number of years to simulate
     # thissoil: soil properties, for instance a row of soildat
