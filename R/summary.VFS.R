@@ -4,7 +4,8 @@ function(object, ...) {
 # averages across all b values
 
     runoff <- matrix(object$daily$runoff, nrow=365, byrow=FALSE)
-    runoff[runoff > 0] <- 1
+    runoffd <- runoff
+    runoffd[runoffd > 0] <- 1
 
 
     if(all(is.na(object$MassOut))) 
@@ -17,13 +18,14 @@ function(object, ...) {
 
 
     if(modeltype == "VFS") {
-    results <- list(
+    results <- c(
+        # load reduction across years with runoff 
         ALR = mean(colMeans(object$AnnualRemovalEfficiency, na.rm=TRUE)), 
 
         # error propagation: correct SD is sqrt(mean(variance of each trt))
         ALRsd = sqrt(mean(apply(object$AnnualRemovalEfficiency, 2, var, na.rm=TRUE))), 
 
-        # load reduction across all years
+        # load reduction across all years; no runoff = 100% reduction
         ALRall = mean(apply(object$AnnualRemovalEfficiency, 2, function(object){object[is.na(object)] <- 100; mean(object)})),
 
         # error propagation: correct SD is sqrt(mean(variance of each trt))
@@ -56,12 +58,16 @@ function(object, ...) {
         # SedLoss/SedIn
         MUSLETLR = 100 - 100 * mean(colSums(object$MassOutMUSLE, na.rm=TRUE)/nyears) / mean(colSums(object$MassInMUSLE, na.rm=TRUE)/nyears),
 
-        RunoffDays = mean(colSums(runoff)),
+        Runoff = mean(colSums(runoff)),
 
-        RunoffDayssd = sd(colSums(runoff)))
+        Runoffsd = sd(colSums(runoff)),
+
+        RunoffDays = mean(colSums(runoffd)),
+
+        RunoffDayssd = sd(colSums(runoffd)))
         
     } else {
-    results <- list(
+    results <- c(
         SedIn = mean(colSums(object$MassIn, na.rm=TRUE)/nyears), 
 
         SedInsd = sqrt(mean(apply(object$MassIn, 2, var, na.rm=TRUE))), 
@@ -69,15 +75,19 @@ function(object, ...) {
         MUSLEIn = mean(colSums(object$MassInMUSLE, na.rm=TRUE)/nyears), 
 
         MUSLEInsd = sqrt(mean(apply(object$MassInMUSLE, 2, var, na.rm=TRUE))), 
-
-        RunoffDays = mean(colSums(runoff)),
-
-        RunoffDayssd = sd(colSums(runoff)))
         
+        Runoff = mean(colSums(runoff)),
+
+        Runoffsd = sd(colSums(runoff)),
+
+        RunoffDays = mean(colSums(runoffd)),
+
+        RunoffDayssd = sd(colSums(runoffd)))
+
     }
 
-    print(round(unlist(results), 4))
-    invisible(results)
+    
+    results
 
 }
 

@@ -5,13 +5,13 @@ function(object, ...) {
 
     if(names(object)[1] == "preVFS") {
 	# VFSAPLE object
-	results <- list(
+	results <- c(
 	    AnnualErosionPRemoval = mean(object$pErosion),
 	    AnnualErosionPRemovalsd = sd(object$pErosion),
 	    AnnualTotalPRemoval = mean(object$pTotal),
 	    AnnualTotalPRemovalsd = sd(object$pTotal))
     } else {
-	results <- list(
+	results <- c(
 	    AnnualLossErosion = mean(object$lossErosion),
 	    AnnualLossDissolvedSoil = mean(object$lossDissolvedSoil),
 	    AnnualLossDissolvedManure = mean(object$lossDissolvedManure),
@@ -19,8 +19,7 @@ function(object, ...) {
 	    AnnualLossTotal = mean(object$lossTotal))
     }
 
-    print(round(unlist(results), 4))
-    invisible(results)
+    results
 
 }
 
