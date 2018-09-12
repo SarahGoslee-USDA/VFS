@@ -57,7 +57,7 @@ More about the model here.
 
 	vfs.CL
 
-	unlist(summary(vfs.CL))
+	summary(vfs.CL)
 
 ```
 
@@ -69,7 +69,7 @@ The model can be run to calculate erosion only, without a VFS. The `print` and `
 
 	erosion.CL
 
-	unlist(summary(erosion.CL))
+	summary(erosion.CL)
 
 ```
 

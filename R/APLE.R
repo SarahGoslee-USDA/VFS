@@ -88,7 +88,10 @@ lossDissolvedFert <- fertPavail * runoff / precip * fertPD
 lossTotal <- lossErosion + lossDissolvedSoil + lossDissolvedManure + lossDissolvedFert
 
 
-list(lossErosion = lossErosion, lossDissolvedSoil = lossDissolvedSoil, lossDissolvedManure = lossDissolvedManure, lossDissolvedFert = lossDissolvedFert, lossTotal = lossTotal)
+results <- list(lossErosion = lossErosion, lossDissolvedSoil = lossDissolvedSoil, lossDissolvedManure = lossDissolvedManure, lossDissolvedFert = lossDissolvedFert, lossTotal = lossTotal)
+
+class(results) <- "APLE"
+results
 
 }
 

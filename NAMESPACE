@@ -7,3 +7,6 @@ import(stats, graphics)
 S3method(summary, VFS)
 S3method(print, VFS)
 
+S3method(summary, APLE)
+S3method(print, APLE)
+

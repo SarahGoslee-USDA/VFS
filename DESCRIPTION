@@ -1,6 +1,6 @@
 Package: VFS
 Title: Vegetated Filter Strip and Erosion Model
-Version: 0.9.3-2
+Version: 0.9.3-3
 Date: 2018-09-11
 Authors@R: c(person("Sarah", "Goslee", role = c("aut", "cre"),
                      email = "Sarah.Goslee@ars.usda.gov"),
@@ -16,4 +16,5 @@ Description: A model for erosion and runoff across a vegetated filter strip,
 	simulating weather. Functions to summarize the model results are
 	provided.
 License: GPL-3
+LazyData: true
 

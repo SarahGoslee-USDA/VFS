@@ -489,12 +489,13 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
  
     }
 
+    musle <- data.frame(MUSLE = musle)
 
     ## Annual Calculations
     AnnualRainfall <- aggregate(rain, by=list(date.Year), sum)[, -1, drop = FALSE]
     AnnualRunoff <- aggregate(runoff, by=list(date.Year), sum)[, -1, drop = FALSE]
 
-    output <- list(daily = data.frame(rain=rain, temperature=temperature, S=S, kt=kt, ET=ET, intensity=intensity, runoff=runoff, Q=Q, fd=fd, R=R, Vm=Vm, Re=Re, Va=Va, Nfc=Nfc, Nfm=Nfm, Nff=Nff, fdc=fdc, fdm=fdm, fdf=fdf, Ft=Ft, peakflow=peakflow, MUSLE=musle), field=c(clay=ff, area=FieldArea), AnnualRainfall=AnnualRainfall, AnnualRunoff=AnnualRunoff, Conc=Conc, Load=Load, MassRemoved=MassRemoved, MassOut=MassOut, AnnualLoadIn=AnnualLoadIn, AnnualLoadOut=AnnualLoadOut, AnnualRemovalEfficiency=AnnualRemovalEfficiency, MassRemovedMUSLE=MassRemovedMUSLE, MassOutMUSLE=MassOutMUSLE, AnnualLoadInMUSLE=AnnualLoadInMUSLE, AnnualLoadOutMUSLE=AnnualLoadOutMUSLE, AnnualRemovalEfficiencyMUSLE=AnnualRemovalEfficiencyMUSLE, Ftannual=Ftannual, Ftannualavg=Ftannualavg, Ftannualstdev=Ftannualstdev)
+    output <- list(daily = data.frame(rain=rain, temperature=temperature, S=S, kt=kt, ET=ET, intensity=intensity, runoff=runoff, Q=Q, fd=fd, R=R, Vm=Vm, Re=Re, Va=Va, Nfc=Nfc, Nfm=Nfm, Nff=Nff, fdc=fdc, fdm=fdm, fdf=fdf, Ft=Ft, peakflow=peakflow), field=c(clay=ff, area=FieldArea), AnnualRainfall=AnnualRainfall, AnnualRunoff=AnnualRunoff, Conc=Conc, MassIn=Load, MassOut=MassOut, MassRemoved=MassRemoved, AnnualMassIn=AnnualLoadIn, AnnualMassOut=AnnualLoadOut, AnnualRemovalEfficiency=AnnualRemovalEfficiency, MassInMUSLE=musle, MassOutMUSLE=MassOutMUSLE, MassRemovedMUSLE=MassRemovedMUSLE, AnnualMassInMUSLE=AnnualLoadInMUSLE, AnnualMassOutMUSLE=AnnualLoadOutMUSLE, AnnualRemovalEfficiencyMUSLE=AnnualRemovalEfficiencyMUSLE, Ftannual=Ftannual, Ftannualavg=Ftannualavg, Ftannualstdev=Ftannualstdev)
 
     class(output) <- "VFS"
 
