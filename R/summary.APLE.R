@@ -9,7 +9,20 @@ function(object, ...) {
 	    AnnualErosionPRemoval = mean(object$pErosion),
 	    AnnualErosionPRemovalsd = sd(object$pErosion),
 	    AnnualTotalPRemoval = mean(object$pTotal),
-	    AnnualTotalPRemovalsd = sd(object$pTotal))
+	    AnnualTotalPRemovalsd = sd(object$pTotal),
+
+        AnnualLossErosionPre = mean(object$preVFS$lossErosion),
+	    AnnualLossDissolvedSoilPre = mean(object$preVFS$lossDissolvedSoil),
+	    AnnualLossDissolvedManurePre = mean(object$preVFS$lossDissolvedManure),
+	    AnnualLossDissolvedFertPre = mean(object$preVFS$lossDissolvedFert),
+	    AnnualLossTotalPre = mean(object$preVFS$lossTotal),
+
+	    AnnualLossErosionPost = mean(object$postVFS$lossErosion),
+	    AnnualLossDissolvedSoilPost = mean(object$postVFS$lossDissolvedSoil),
+	    AnnualLossDissolvedManurePost = mean(object$postVFS$lossDissolvedManure),
+	    AnnualLossDissolvedFertPost = mean(object$postVFS$lossDissolvedFert),
+	    AnnualLossTotalPost = mean(object$postVFS$lossTotal))
+
     } else {
 	results <- c(
 	    AnnualLossErosion = mean(object$lossErosion),
