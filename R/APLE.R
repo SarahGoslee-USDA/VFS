@@ -4,7 +4,7 @@ APLE <- function(soilP, clay, OM, precip, runoff, erosion, manureP = 25, manureS
 
 ## Inputs
 
-# soilP: soil test Mehlich 3 (mg / kg)
+# soilP: soil test Mehlich 3 phosphorus (mg / kg)
 # clay: soil clay (%)
 # OM: soil organic matter (%)
 # precip: annual precipitation (in)
@@ -34,11 +34,13 @@ eer[is.na(eer)] <- 0
 # soil dissolved P extraction coefficient: default 0.005
 Pcoef <- 0.005
 
+
+
 # soil organic carbon (%)
 SOC <- OM * 0.58
 
 # soil PSP
-soilPSP <- min(0.9, max(0.05, ( -0.053 * log(clay) + 0.001 * (soilP / 2) - 0.029 * SOC + 0.42)))
+soilPSP <- pmin(0.9, pmax(0.05, ( -0.053 * log(clay) + 0.001 * (soilP / 2) - 0.029 * SOC + 0.42)))
 
 # soil labile P (mg / kg)
 soilPlabile <- soilP / 2

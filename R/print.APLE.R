@@ -5,10 +5,14 @@ function(x, ...) {
 
     if(names(x)[1] == "preVFS") {
 	# VFSAPLE object
-	cat("Mean annual erosion P reduction by VFS:", mean(x$pErosion), "\n")
-	cat("Mean annual total P reduction by VFS:", mean(x$pTotal), "\n")
+	cat("Mean annual erosion P reduction by VFS:", round(mean(x$pErosion), 3), "\n")
+	cat("Mean annual total P reduction by VFS:", round(mean(x$pTotal), 3), "\n")
     } else {
-	cat("Mean annual P loss:", mean(x$lossTotal), "\n")
+	cat("Mean annual P loss:", round(mean(x$lossErosion), 3), "\n")
+	cat("Mean annual P loss:", round(mean(x$lossDissolvedSoil), 3), "\n")
+	cat("Mean annual P loss:", round(mean(x$lossDissolvedManure), 3), "\n")
+	cat("Mean annual P loss:", round(mean(x$lossDissolvedFert), 3), "\n")
+	cat("Mean annual P loss:", round(mean(x$lossTotal), 3), "\n")
     }
 
     invisible(x)

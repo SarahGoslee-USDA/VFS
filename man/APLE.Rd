@@ -4,7 +4,7 @@
     Agricultural Phosphorus Loss Estimator 
 }
 \description{
-    Agricultural loss of phosphorus based on soil P, additions of fertilizer and manure, and erosion..
+    Agricultural loss of phosphorus based on soil phosphorus level, additions of fertilizer and manure, and erosion.
 }
 \usage{
 APLE(soilP, clay, OM, precip, runoff, erosion, manureP = 25, manureSolids = 25,
@@ -12,54 +12,57 @@ APLE(soilP, clay, OM, precip, runoff, erosion, manureP = 25, manureSolids = 25,
 }
 \arguments{
   \item{soilP}{
-%%     ~~Describe \code{soilP} here~~
+soil test Mehlich 3 phosphorus (mg / kg)
 }
   \item{clay}{
-%%     ~~Describe \code{clay} here~~
+soil clay (%)
 }
   \item{OM}{
-%%     ~~Describe \code{OM} here~~
+soil organic matter (%)
 }
   \item{precip}{
-%%     ~~Describe \code{precip} here~~
+annual precipitation (in)
 }
   \item{runoff}{
-%%     ~~Describe \code{runoff} here~~
+annual runoff (in)
 }
   \item{erosion}{
-%%     ~~Describe \code{erosion} here~~
+annual erosion (ton / ac)
 }
   \item{manureP}{
-%%     ~~Describe \code{manureP} here~~
+manure P applied (kg / ha): default 25
 }
   \item{manureSolids}{
-%%     ~~Describe \code{manureSolids} here~~
+manure solids (%): default 50
 }
   \item{manureWEP}{
-%%     ~~Describe \code{manureWEP} here~~
+manure water-extractable phosphorus / TP (%): default 50
 }
   \item{manureIn}{
-%%     ~~Describe \code{manureIn} here~~
+ manure incorporated (%): default 40
 }
   \item{fertP}{
-%%     ~~Describe \code{fertP} here~~
+fertilizer phosphorus applied (kg / ha): default 10
 }
   \item{fertIn}{
-%%     ~~Describe \code{fertIn} here~~
+fertilizer incorporated (%): default 40
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+This function implements the basic version of the spreadsheet-based Agricultural Phosphorus Loss Estimator model (APLE) in R, and is vectorized. This model calculates annual phosphorus loss by compartment (due to erosion, dissolved soil phosphorus, dissolved manure, dissolved fertilizer) based rainfall, soil properties, and management.
+The units match those of the original spreadsheet.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+\item{lossErosion}{soil erosion phosphorus loss (kg / ha)}
+\item{lossDissolvedSoil}{soil dissolved phosphorus loss (kg / ha)}
+\item{lossDissolvedManure}{manure dissolved phosphorus loss (kg / ha)}
+\item{lossDissolvedFertilizer}{fertilizer dissolved phosphorus loss (kg / ha)}
+\item{lossTotal}{total phosphorus loss (kg / ha)}
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+Vadas, P.A., L.W. Good, P.A. Moore, Jr., and N. Widman. 2009. Estimating phosphorus loss in runoff from manure and fertilizer for a phosphorus loss quantification tool. J. Environ. Qual. 38:1645–1653. doi:10.2134/jeq2008.0337
+APLE Model Website https://www.ars.usda.gov/midwest-area/madison-wi/us-dairy-forage-research-center/docs/aple-homepage/ (Accessed 15 Sept 2018).
 }
 \author{
 Sarah Goslee
@@ -70,5 +73,8 @@ Sarah Goslee
 \code{\link{VFSAPLE}}
 }
 \examples{
+
+APLE(soilP = 127, clay = 17, OM = 6, precip = 35, runoff = 6, erosion = 7, manureP = 25, manureSolids = 25, manureWEP = 50, manureIn = 40, fertP = 10, fertIn = 40)
+
 }
 
