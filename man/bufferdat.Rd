@@ -26,30 +26,36 @@ Haan CT, Barfield BJ, Hayes JC (1994) Design hydrology and sedimentology for sma
 
 \examples{
 	
+
 	# state college GHCN data
 	#
-	# import is slow: 
 	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
 	data("weather") # same object
-	
-	weather.param <- wth.param(weather)
 
-	rain.compare <- rainfall(365*3, weather.param)
-	temp.compare <- temperature(365*3, weather.param)
+	weather.param <- wth.param(weather, method="markov")
+
+	rain.compare <- rainfall(365*2, weather.param)
+	temp.compare <- temperature(365*2, weather.param)
 
 	data(soildat)
 	data(bufferdat)
 
 	# bluegrass buffer, clay loam soil
-	vfs.CL <- VFS(nyears = 3, thissoil = subset(soildat, Soil == "CL"), 
+	# short simulation to cut down on time required
+	vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
 	rain=rain.compare, temperature=temp.compare, 
 	thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
 	FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
-	z = 1000, b = c(.5, 1, 1.5, 2.5))
+	z = 1000, b = 1.5)
 
-	vfs.CL
-
+	print(vfs.CL)
 	summary(vfs.CL)
+
+	aple.CL <- VFSAPLE(vfs.CL, soilP = 120, OM = 2)
+
+	print(aple.CL)
+	summary(aple.CL)
+
 
 }
 \keyword{datasets}

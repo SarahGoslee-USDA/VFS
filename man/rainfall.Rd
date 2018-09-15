@@ -12,7 +12,7 @@
 
 \arguments{
   \item{ndays}{
-	Number of days to simulate
+	Number of days to simulate.
 }
   \item{thiswth}{
 	Output of \code{wth.param} The choice of method in \code{wth.param()} determines what coefficients are provided, and thus which rainfall simulation method is used.
@@ -31,6 +31,7 @@
 }
 \references{
 	Rodriguez-Iturbe, I., A. Porporato, L. Ridolfi, V. Isham, and D. R. Coxi. 1999. Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. Proc. Royal Soc. A. 455: 269-288.
+
 	Nicks, A.D. 1974. Stochastic generation of the occurrence, pattern and location of maximum amount of daily rainfall. Pp. 154-171 in: Proceedings Symposium on Statistical Hydrology. USDA Agricultural Research Service Miscellaneous Publication No. 1275, Washington, DC.
 }
 
@@ -44,10 +45,8 @@
 \examples{
 
 	# GHCN daily weather file for State College, PA
-	# subset of data (1980-2009) for station USC00368449
+	# subset of data (2000-2009) for station USC00368449
 	#
-	# import is slow: 
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
 	data("weather") # same object
 
 

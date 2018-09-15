@@ -1,7 +1,7 @@
 context("Derive weather parameters.")
 library(VFS)
 
-# import weather data 1980-2009
+# import weather data 2000-2009
 weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
 
 delnone     <- wth.param(weather, method="poisson")
@@ -10,16 +10,16 @@ delend      <- wth.param(weather[-nrow(weather), ], method="poisson")
 delboth     <- wth.param(weather[-c(1, 2, 3, nrow(weather)), ], method="poisson")
 
 test_that("partial years are deleted", {
-    expect_equal(delnone$start, 1980)
+    expect_equal(delnone$start, 2000)
     expect_equal(delnone$end,   2009)
 
-    expect_equal(delstart$start, 1981)
+    expect_equal(delstart$start, 2001)
     expect_equal(delstart$end,   2009)
 
-    expect_equal(delend$start, 1980)
+    expect_equal(delend$start, 2000)
     expect_equal(delend$end,   2008)
 
-    expect_equal(delboth$start, 1981)
+    expect_equal(delboth$start, 2001)
     expect_equal(delboth$end,   2008)
 })
 

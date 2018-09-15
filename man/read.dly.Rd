@@ -9,7 +9,6 @@
 \usage{
 read.dly(filename)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{filename}{
 	Name and path (if necessary) of a GHCN DLY file.
@@ -20,9 +19,23 @@ All GHCN DLY files should have these five elements: PRCP (precipitation, origina
 
 Depending on the station, there may be many other recorded variables. Each variable is accompanied by a series of quality flags, which are preserved from the original file.
 
+Data are in a complex fixed-width format. Please see the \href{https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt}{GHCN readme} for details.
+
 }
 \value{
-	Returns a data frame with date as three columns, YEAR, MONTH, DAY, and each data value present in the original file along with its quality flags. Please see the \href{https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt}{GHCN readme} for details.
+
+    Returns a data frame with date as three columns, YEAR, MONTH, DAY, and each data value present in the original file along with its quality flags. Please see the \href{https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt}{GHCN readme} for details.
+
+    These columns will always be present:
+    \describe{
+	\item{YEAR}{Year.}
+	\item{MONTH}{Month number.}
+	\item{DAY}{Day of month.}
+	\item{PRCP}{Precipitation (mm).}
+	\item{TMAX}{Maximum temperature (C).}
+	\item{TMIN}{Minimum temperature (C).}
+    }
+
 }
 \references{
 	\href{https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/global-historical-climatology-network-ghcn}{GHCN} data comprises both current and historical weather station data world-wide. 
@@ -35,12 +48,12 @@ Depending on the station, there may be many other recorded variables. Each varia
 \code{\link{wth.param}}, \code{\link{weather}}
 }
 \examples{
-	# A sample DLY file for State College, PA, is included with this package.
-	# This file contains a subset of data (1980-2009) for station USC00368449
-	#
-	# import is slow: 
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	data("weather") # same object
+	# ten years of daily weather data, 2000-2009, for State College, PA
+	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+
+	# could also use: 
+	# weather <- read.dly("ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/USC00368449.dly")
+	# weather <- subset(weather, YEAR >= 2000 & YEAR <= 2009)
 
 	# daily precipitation
 	summary(weather$PRCP.VALUE)

@@ -12,10 +12,10 @@ MUSLE.LS(FieldLength, FieldSlope)
 }
 \arguments{
   \item{FieldLength}{
-    Field length (ft)
+    Field length (ft).
 }
   \item{FieldSlope}{
-    Field slope (ft/ft)
+    Field slope (ft/ft).
 }
 }
 \value{

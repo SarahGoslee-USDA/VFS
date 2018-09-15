@@ -25,14 +25,16 @@
 }
 
 \details{
-	This is a very simple temperature simulation, using three parameters derived from daily weather data and the day of year to calculate a smooth annual temperature change.
+	This is a very simple temperature simulation, using three parameters derived from daily weather data and the day of year to calculate a smooth annual temperature change derived from the first harmonic of a Fourier function.
 }
 
 
 \author{
 	Heather Gall and Sarah Goslee
 }
-
+\references{
+Grimenes, A. and O. Nissen. 2004. Mathematical modeling of the annual temperature wave based on monthly mean temperatures, and comparisons between local climate trends at seven Norwegian stations. Theor Appl Climatol 78:229-246. doi:10.1007/s00704-004-0036-9
+}
 
 
 \seealso{
@@ -42,11 +44,7 @@
 \examples{
 	# A sample GHCN daily weather file for State College, PA, is included with this package.
 	# This file contains a subset of data (1980-2009) for station USC00368449
-	#
-	# import is slow: 
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	data("weather") # same object
-
+	data("weather") 
 
 	# calculate parameters for the poisson model, using 0.3 mm as the lower limit for wet days.
 	weather.param.p <- wth.param(weather, method = "poisson", llim = 0.3)

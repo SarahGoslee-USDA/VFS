@@ -11,13 +11,13 @@ MUSLE(Q, qp, A, C = 0.085, P = 0.4, K, LS)
 }
 \arguments{
   \item{Q}{
-    Runoff volume (m^3/d)
+    Runoff volume (m^3/d).
 }
   \item{qp}{
-    Runoff peak discharge (m^3/s)
+    Runoff peak discharge (m^3/s).
 }
   \item{A}{
-    Field area (ha)
+    Field area (ha).
 }
   \item{C}{
     Crop management factor. Default is for a corn field.
@@ -33,7 +33,7 @@ MUSLE(Q, qp, A, C = 0.085, P = 0.4, K, LS)
 }
 }
 \details{
-    Uses the Modified Universal Soil Loss Equation to estimate daily sediment yield.
+    Uses the Modified Universal Soil Loss Equation to estimate daily sediment yield. If K and LS are not known, they can be estimated from soil or field properties using \code{MUSLE.K} and \code{MUSLE.LS}.
 }
 \value{
     Sediment yield (t/day)

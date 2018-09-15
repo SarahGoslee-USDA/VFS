@@ -1,7 +1,7 @@
 \name{peak}
 \alias{peak}
 \title{
-Use the rational method to calculate peak discharge.
+Rational method to calculate peak discharge.
 }
 \description{
     Very simple estimate of peak discharge.
@@ -11,10 +11,10 @@ peak(intensity, area, c = 0.25)
 }
 \arguments{
   \item{intensity}{
-    Precipitation intensity (mm/hr)
+    Precipitation intensity (mm/hr).
 }
   \item{area}{
-    Field area (ha)
+    Field area (ha).
 }
   \item{c}{
     Runoff coefficient, related to slope, soil type, and land cover (0-1). Forest may be 0.05 - 0.25, while paved surfaces may be 0.95.
@@ -22,7 +22,7 @@ peak(intensity, area, c = 0.25)
 }
 
 \value{
-    Peak discharge (m^3/s)
+    Peak discharge (m^3/s).
 }
 \references{
     Hromadka, T.V, II, and R. J. Whitley. 1994. The rational method for peak flow rate estimation. Water Resources Bulletin 30(6):1001-1009.

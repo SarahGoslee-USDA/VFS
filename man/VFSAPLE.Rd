@@ -5,55 +5,51 @@
     Link the VFS and APLE models.
 }
 \description{
-    Uses the erosion and runoff output of VFS as input to APLE.
+    Uses the erosion and runoff output of VFS as input to APLE. 
 }
 \usage{
 VFSAPLE(x, soilP, OM, manureP = 25, manureSolids = 25, manureWEP = 50,
     manureIn = 40, fertP = 10, fertIn = 40)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
+VFS object.
 }
   \item{soilP}{
-%%     ~~Describe \code{soilP} here~~
+soil test Mehlich 3 phosphorus (mg/kg).
 }
   \item{OM}{
-%%     ~~Describe \code{OM} here~~
+soil organic matter (\%).
 }
   \item{manureP}{
-%%     ~~Describe \code{manureP} here~~
+manure P applied (kg/ha).
 }
   \item{manureSolids}{
-%%     ~~Describe \code{manureSolids} here~~
+manure solids (\%).
 }
   \item{manureWEP}{
-%%     ~~Describe \code{manureWEP} here~~
+manure water-extractable phosphorus/TP (\%).
 }
   \item{manureIn}{
-%%     ~~Describe \code{manureIn} here~~
+ manure incorporated (\%).
 }
   \item{fertP}{
-%%     ~~Describe \code{fertP} here~~
+fertilizer phosphorus applied (kg/ha).
 }
   \item{fertIn}{
-%%     ~~Describe \code{fertIn} here~~
+fertilizer incorporated (\%).
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The \code{VFSAPLE} function handles unit conversion and parameter estimation. Erosion, precipitation, runoff, and field parameters from \code{VFS} are passed to \code{APLE}. It also runs \code{APLE} for both pre- and post-filter strip erosion values, so the efficacy of the filter strip at phosphorus removal can be calculated.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+\item{preVFS}{APLE object for pre-filter strip erosion values.}
+\item{postVFS}{APLE object for post-filter strip erosion values.}
+\item{pErosion}{Efficacy of the filter strip at removing erosion phosphorus (\%).}
+\item{pTotal}{Efficacy of the fiter strip at removing total phosphorus (\%).} 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
     Sarah Goslee
 }
@@ -63,5 +59,33 @@ VFSAPLE(x, soilP, OM, manureP = 25, manureSolids = 25, manureWEP = 50,
 \code{\link{APLE}}, \code{\link{VFS}}
 }
 \examples{
+	# state college GHCN data
+	#
+	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+	data("weather") # same object
+
+	weather.param <- wth.param(weather, method="markov")
+
+	rain.compare <- rainfall(365*2, weather.param)
+	temp.compare <- temperature(365*2, weather.param)
+
+	data(soildat)
+	data(bufferdat)
+
+	# bluegrass buffer, clay loam soil
+	# short simulation to cut down on time required
+	vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
+	rain=rain.compare, temperature=temp.compare, 
+	thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
+	FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
+	z = 1000, b = 1.5)
+
+	print(vfs.CL)
+	summary(vfs.CL)
+
+	aple.CL <- VFSAPLE(vfs.CL, soilP = 120, OM = 2)
+
+	print(aple.CL)
+	summary(aple.CL)
 }
 

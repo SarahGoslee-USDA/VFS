@@ -45,7 +45,33 @@
 }
 
 \value{
-	\item{params}{Parameters for simulating long-term point rainfall.  }
+    	\item{params}{Parameters for simulating long-term point rainfall.
+		For \code{method = "poisson"}, a list of parameters containing:
+		\describe{
+			\item{lambda }{Mean rainfall inter-arrival frequency (d-1).}
+			\item{depth }{Mean rainfall depth (mm).}
+			\item{A }{Mean annual temperature (C).}
+			\item{B }{Temperature half-amplitude (C).}
+			\item{C }{Day of the year with minimum temperature (DOY).}
+			\item{start }{First full year of the weather data.}
+			\item{end }{Last full year of the weather data.}
+		}
+		For \code{method = "markov"}, a data frame with one row per month and columns:
+		\describe{
+		    \item{tmin}{Minimum temperature.}
+		    \item{tminsd}{Maximum temperature.}
+		    \item{tmax}{Minimum temperature standard deviation.}
+		    \item{tmaxsd}{Maximum temperature standard deviation.}
+		    \item{prcp}{Monthly precipitation.}
+		    \item{prcpmean}{Mean size of a precipitation event.}
+		    \item{prcpmax}{Maximum size of a precipitation event.}
+		    \item{prcpsd}{Standard deviation of precipitation event sizes.}
+		    \item{prcpskew}{Skew of precipitation event sizes.}
+		    \item{prcpwet}{Number of wet days (greater than \code{llim}).}
+		    \item{prcpww}{Probability of a wet day following a wet day.}
+		    \item{prcpdw}{Probability of a wet day following a dry day.}
+		}
+	}
 	\item{temperature}{Parameters for simulating long-term daily temperature.}
 	\item{llim}{Minimum daily rainfall for a wet day.}
 	\item{start}{First full year of weather data}
@@ -54,6 +80,7 @@
 
 \details{
 	The rainfall simulation currently offers choice of two methods: the simple Poisson model of Rodriguez-Iturbe et al. (1999), and the Markov chain model of Nicks (1974). The latter rainfall calculation is used by the APEX farm model, among others, and is based on monthly statistics.
+NOTE: For reasons of time and space, the example contains only ten years of daily weather data. We suggest using thirty years for estimating parameter values.
 }
 \references{
 	Rodriguez-Iturbe, I., A. Porporato, L. Ridolfi, V. Isham, and D. R. Coxi. 1999. Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. Proc. Royal Soc. A. 455: 269-288.
@@ -66,16 +93,14 @@
 \seealso{
 	\code{\link{read.dly}},
 	\code{\link{rainfall}},
-	\code{\link{temperature}},
+	\code{\link{temperature}}
 }
 \examples{
 
 	# GHCN daily weather file for State College, PA
-	# subset of data (1980-2009) for station USC00368449
+	# subset of data (2000-2009) for station USC00368449
 	#
-	# import is slow: 
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	data("weather") # same object
+	data("weather") 
 
 	# calculate parameters for the poisson model
 	# using 0.3 mm as the lower limit for wet days.
@@ -101,5 +126,4 @@
 
 }
 
-\keyword{ manip }
 \keyword{ datagen }
