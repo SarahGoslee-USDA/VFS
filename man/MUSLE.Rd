@@ -54,17 +54,18 @@ Sarah Goslee
 }
 \examples{
 
-    # Approximate erodibility factor from soil texture.
-    Kf <- MUSLE.K(.3, .5, .2)
+         # Approximate erodibility factor from soil texture.
+         Kf <- MUSLE.K(.3, .5, .2)
+     
+         # Calculate landscape factor from field size and shape.
+         # 100-m field length with 2% slope
+		 # note that MUSLE.LS takes feet
+         LS <- MUSLE.LS(100 * 3.28, .02)
+     
+         # assume 1 ha cornfield with known rainfall intensity
+         peakd <- peak(intensity = 55, area = .4)
 
-    # Calculate landscape factor from field size and shape.
-    # 100-foot field length with 2% slope
-    LS <- MUSLE.LS(100, .02)
-
-    # assume 1 ha cornfield
-    peakd <- peak(intensity = 55, area = 1)
-
-#    SedYield <- MUSLE()
+     	 SedYield <- MUSLE(85, qp = peakd, A = .4, K = Kf, LS = LS)
 
 }
 
