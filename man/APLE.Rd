@@ -7,8 +7,9 @@
     Agricultural loss of phosphorus based on soil phosphorus level, additions of fertilizer and manure, and erosion.
 }
 \usage{
-APLE(soilP, clay, OM, precip, runoff, erosion, manureP = 25, manureSolids = 25,
-    manureWEP = 50, manureIn = 40, fertP = 10, fertIn = 40)
+APLE(soilP, clay, OM, precip, runoff, erosion, manureP = 25,
+    manureSolids = 25, manureWEP = 50, manureIn = 40,
+	fertP = 10, fertIn = 40)
 }
 \arguments{
   \item{soilP}{
@@ -62,6 +63,7 @@ The units match those of the original spreadsheet.
 }
 \references{
 Vadas, P.A., L.W. Good, P.A. Moore, Jr., and N. Widman. 2009. Estimating phosphorus loss in runoff from manure and fertilizer for a phosphorus loss quantification tool. J. Environ. Qual. 38:1645-1653. doi:10.2134/jeq2008.0337
+
 APLE Model Website https://www.ars.usda.gov/midwest-area/madison-wi/us-dairy-forage-research-center/docs/aple-homepage/ (Accessed 15 Sept 2018).
 }
 \author{
@@ -74,9 +76,9 @@ Sarah Goslee
 }
 \examples{
 
-APLE(soilP = 127, clay = 17, OM = 6, precip = 35, runoff = 6, erosion = 7,
-    manureP = 25, manureSolids = 25, manureWEP = 50, manureIn = 40,
-    fertP = 10, fertIn = 40)
+APLE(soilP = 127, clay = 17, OM = 6, precip = 35, runoff = 6,
+erosion = 7, manureP = 25, manureSolids = 25, manureWEP = 50,
+manureIn = 40, fertP = 10, fertIn = 40)
 
 }
 

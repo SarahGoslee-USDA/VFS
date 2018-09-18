@@ -36,7 +36,7 @@ MUSLE(Q, qp, A, C = 0.085, P = 0.4, K, LS)
     Uses the Modified Universal Soil Loss Equation to estimate daily sediment yield. If K and LS are not known, they can be estimated from soil or field properties using \code{MUSLE.K} and \code{MUSLE.LS}.
 }
 \value{
-    Sediment yield (t/day)
+    Sediment yield (t/day).
 }
 \references{
 Williams JR. 1975. Sediment-yield prediction with universal equation using runoff energy factor. Pp. 244-251 In: Present and prospective technology for predicting sediment yield and sources. ARS.S-40, US Gov. Print. Office, Washington, DC. 244-252.
@@ -54,18 +54,18 @@ Sarah Goslee
 }
 \examples{
 
-         # Approximate erodibility factor from soil texture.
-         Kf <- MUSLE.K(.3, .5, .2)
-     
-         # Calculate landscape factor from field size and shape.
-         # 100-m field length with 2% slope
-		 # note that MUSLE.LS takes feet
-         LS <- MUSLE.LS(100 * 3.28, .02)
-     
-         # assume 1 ha cornfield with known rainfall intensity
-         peakd <- peak(intensity = 55, area = .4)
+# Approximate erodibility factor from soil texture.
+Kf <- MUSLE.K(.3, .5, .2)
 
-     	 SedYield <- MUSLE(85, qp = peakd, A = .4, K = Kf, LS = LS)
+# Calculate landscape factor from field size and shape.
+# 100-m field length with 2% slope
+# note that MUSLE.LS takes feet
+LS <- MUSLE.LS(100 * 3.28, .02)
+
+# assume 0.4 ha cornfield with known rainfall intensity
+peakd <- peak(intensity = 55, area = 0.4)
+
+SedYield <- MUSLE(85, qp = peakd, A = .4, K = Kf, LS = LS)
 
 }
 

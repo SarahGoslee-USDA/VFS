@@ -16,16 +16,15 @@
 	\href{https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/global-historical-climatology-network-ghcn}{GHCN} data comprises both current and historical weather station data world-wide. 
 
 }
-
 \seealso{
 \code{\link{read.dly}}
 }
 
 \examples{
-	# A sample DLY file for State College, PA, is included with this package.
-	# This file contains a subset of data (1980-2009) for station USC00368449
-	#
-	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	# identical to data("weather")
+# A sample DLY file for State College, PA, is included with this package.
+# This file contains a subset of data (1980-2009) for station USC00368449
+#
+weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+# identical to data("weather")
 }
 \keyword{datasets}

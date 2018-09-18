@@ -71,33 +71,33 @@ VFS(nyears = 1000, thissoil, thisbuffer, rain, temperature,
 Returns an object of class VFS, comprising:
 
     \item{daily}{Daily output of all public variables that change as a function of time. The data frame has columns:}
-	\describe{
-	    \item{rain}{precipitation (mm).}
-	    \item{temperature}{mean temperature (C).}
-	    \item{S}{soil water storage, (mm).}
-	    \item{kt}{Blaney-Criddle temperature coefficient.}
-	    \item{ET}{evapotranspiration (mm).}
-	    \item{intensity}{rainfall intensity (mm).}
-	    \item{runoff}{runoff (mm).}
-	    \item{Q}{discharge (ft^3/s).}
-	    \item{fd}{flow depth through VFS (ft).}
-	    \item{R}{hydraulic radius of filter strip (ft).}
-	    \item{Vm}{Manning's velocity (ft/s).}
-	    \item{Re}{Reynold's number.}
-	    \item{Va}{actual shear stress (ft/s).}
-	    \item{Nfc}{Fall number for coarse particles.}
-	    \item{Nfm}{Fall number for medium particles.}
-	    \item{Nff}{Fall number for fine particles.}
-	    \item{fdc}{Trapping efficiency for coarse particles.}
-	    \item{fdm}{Trapping efficiency for medium particles.}
-	    \item{fdf}{Trapping efficiency for fine particles.}
-	    \item{Ft}{Total trapping efficiency of filter strip.}
-	    \item{peakflow}{peak flow (m^3/s).}
+	\itemize{
+	    \item{rain: precipitation (mm).}
+	    \item{temperature: mean temperature (C).}
+	    \item{S: soil water storage, (mm).}
+	    \item{kt: Blaney-Criddle temperature coefficient.}
+	    \item{ET: evapotranspiration (mm).}
+	    \item{intensity: rainfall intensity (mm).}
+	    \item{runoff: runoff (mm).}
+	    \item{Q: discharge (ft^3/s).}
+	    \item{fd: flow depth through VFS (ft).}
+	    \item{R: hydraulic radius of filter strip (ft).}
+	    \item{Vm: Manning's velocity (ft/s).}
+	    \item{Re: Reynold's number.}
+	    \item{Va: actual shear stress (ft/s).}
+	    \item{Nfc: Fall number for coarse particles.}
+	    \item{Nfm: Fall number for medium particles.}
+	    \item{Nff: Fall number for fine particles.}
+	    \item{fdc: Trapping efficiency for coarse particles.}
+	    \item{fdm: Trapping efficiency for medium particles.}
+	    \item{fdf: Trapping efficiency for fine particles.}
+	    \item{Ft: Total trapping efficiency of filter strip.}
+	    \item{peakflow: peak flow (m^3/s).}
 	}
     \item{field}{Data on the field being modeled:}
-	\describe{
-	    \item{clay}{soil clay content (\%}.)
-	    \item{area}{field area (m^2).}
+	\itemize{
+	    \item{clay: soil clay content (\%}.)
+	    \item{area: field area (m^2).}
 	}
     \item{Conc}{Sediment concentration (in mass/volume) as calculated by the relationship C = aQ^b; specific units depend on units conversions included in the value of a.}
     \item{MassIn}{Sediment load (mass) from the C-Q model, as calculated by multiplying concentration and runoff volume. If concentration is assumed to be in g/L, then the load is calculated in g.}
@@ -136,35 +136,34 @@ Wischmeier, W. H., and Smith, D.D. 1978. Predicting rainfall erosion losses-a gu
 }
 \examples{
 
-	# state college GHCN data
-	#
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	data("weather") # same object
+# state college GHCN data
+#
+# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+data("weather") # same object
 
-	weather.param <- wth.param(weather, method="markov")
+weather.param <- wth.param(weather, method="markov")
 
-	rain.compare <- rainfall(365*2, weather.param)
-	temp.compare <- temperature(365*2, weather.param)
+rain.compare <- rainfall(365*2, weather.param)
+temp.compare <- temperature(365*2, weather.param)
 
-	data(soildat)
-	data(bufferdat)
+data(soildat)
+data(bufferdat)
 
-	# bluegrass buffer, clay loam soil
-	# short simulation to cut down on time required
-	vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
-	rain=rain.compare, temperature=temp.compare, 
-	thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
-	FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
-	z = 1000, b = 1.5)
+# bluegrass buffer, clay loam soil
+# short simulation to cut down on time required
+vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
+rain=rain.compare, temperature=temp.compare, 
+thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
+FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
+z = 1000, b = 1.5)
 
-	print(vfs.CL)
-	summary(vfs.CL)
+print(vfs.CL)
+summary(vfs.CL)
 
-	aple.CL <- VFSAPLE(vfs.CL, soilP = 120, OM = 2)
+aple.CL <- VFSAPLE(vfs.CL, soilP = 120, OM = 2)
 
-	print(aple.CL)
-	summary(aple.CL)
-
+print(aple.CL)
+summary(aple.CL)
 
 }
 

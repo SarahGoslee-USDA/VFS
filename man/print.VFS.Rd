@@ -30,33 +30,33 @@ If the VFS object has a modeled filter strip, the mean annual loads in and out, 
 
 
 \seealso{
-\code{\link{VFS}}, \code{\link{summary.VFS}},
+\code{\link{VFS}}, \code{\link{summary.VFS}}
 }
 \examples{
-	
-	# state college GHCN data
-	#
-	# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	data("weather") # same object
 
-	weather.param <- wth.param(weather, method="markov")
+# state college GHCN data
+#
+# weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
+data("weather") # same object
 
-	rain.compare <- rainfall(365*2, weather.param)
-	temp.compare <- temperature(365*2, weather.param)
+weather.param <- wth.param(weather, method="markov")
 
-	data(soildat)
-	data(bufferdat)
+rain.compare <- rainfall(365*2, weather.param)
+temp.compare <- temperature(365*2, weather.param)
 
-	# bluegrass buffer, clay loam soil
-	# short simulation to cut down on time required
-	vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
-	rain=rain.compare, temperature=temp.compare, 
-	thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
-	FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
-	z = 1000, b = 1.5)
+data(soildat)
+data(bufferdat)
 
-	print(vfs.CL)
-	summary(vfs.CL)
+# bluegrass buffer, clay loam soil
+# short simulation to cut down on time required
+vfs.CL <- VFS(nyears = 2, thissoil = subset(soildat, Soil == "CL"), 
+rain=rain.compare, temperature=temp.compare, 
+thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, 
+FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, 
+z = 1000, b = 1.5)
+
+print(vfs.CL)
+summary(vfs.CL)
 
 }
 \keyword{ print }
