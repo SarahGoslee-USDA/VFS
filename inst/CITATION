@@ -10,13 +10,16 @@ citEntry(entry="Article",
 		as.person("Ciaran J. Harman"),
 		as.person("Cibin Raj"),
 		as.person("Paul H. Patterson")),
-	journal = "Stoch Environ Res Risk Assess",
+	journal  = "Stoch Environ Res Risk Assess",
 	year	 = 2018,
+	volume   = 32,
+	issue    = 8,
+	pages    = "2369--2380",
 	doi	= "10.1007/s00477-017-1505-x",
 	 
 	textVersion = 
-	paste("Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj, C., and Patterson, P.H. 2018.", 
+	paste("Gall, H. E., Schultz, D., Veith, T. L, Goslee, S. C., Mejia, A., Harman, C. J., Raj, C. and Patterson, P. H. (2018)", 
     "The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies.",
-	"Stoch Environ Res Risk Assess doi:10.1007/s00477-017-1505-x.")
+	"Stoch Environ Res Risk Assess 32(8), 2369--2380. doi:10.1007/s00477-017-1505-x.")
 )
 

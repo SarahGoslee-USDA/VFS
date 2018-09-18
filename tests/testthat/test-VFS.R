@@ -3,7 +3,7 @@ library(VFS)
 
 # import weather data 1980-2009
 weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-weather.param  <- wth.param(weather)
+weather.param  <- wth.param(weather, method="poisson")
 
 data(soildat)
 data(bufferdat)
@@ -18,10 +18,10 @@ rain.compare <- rainfall(365*10, weather.param)
 temp.compare <- temperature(365*10, weather.param)
 
 # model with VFS
-	vfs.CL <- VFSsim(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE)
+	vfs.CL <- VFS(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, temperature=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE)
 
 # model without VFS
-	erosion.CL <- VFSsim(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE)
+	erosion.CL <- VFS(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, temperature=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = c(.5, 1, 1.5, 2.5), carrysoilwater = TRUE, runoffcalc = TRUE)
 
 test_that("pre-VFS matches erosion-only", {
     expect_equal(vfs.CL$Load, erosion.CL$Load)
@@ -33,8 +33,8 @@ test_that("pre-VFS matches erosion-only", {
 # check rainfall and temperature vectors
 
 test_that("weather data matches", {
-    expect_error(VFSsim(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare[1:365], Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
-    expect_error(VFSsim(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare[1:365], thisbuffer = subset(bufferdat, Species == "bluegrass")))
+    expect_error(VFS(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare[1:365], temperature=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
+    expect_error(VFS(nyears = 10, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, temperature=temp.compare[1:365], thisbuffer = subset(bufferdat, Species == "bluegrass")))
 })
 
 

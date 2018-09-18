@@ -1,9 +1,15 @@
+# vim tempfiles
+*~
+.*swp
+
 # History files
 .Rhistory
 .Rapp.history
 
 # Session Data files
 .RData
+*.RDA
+*.RDS
 
 # Example code in package build process
 *-Ex.R
@@ -31,3 +37,30 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# Mac files
+.DS_Store
+._*
+
+# output files
+*.tif
+*.jpg
+*.ps
+*.pdf
+
+# binary data
+*.xlsx
+*.xls
+*.doc
+*.docx
+*.ods
+*.odt
+
+# archived data
+*.zip
+*.gz
+*.bz2
+
+# output
+results/*
+figs/*

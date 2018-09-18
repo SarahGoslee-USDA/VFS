@@ -1,10 +1,10 @@
 ---
-title: "Modeling Erosion and Vegetated Filter Strips"
+title: "Modeling Erosion, Vegetated Filter Strips, and Phosphorus Loss"
 author: "Sarah Goslee, Heather Gall, and Tamie Veith"
-date: "2018-04-24"
+date: "2018-09-18"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Modeling Erosion and Vegetated Filter Strips}
+  %\VignetteIndexEntry{Modeling Erosion, Vegetated Filter Strips, and Phosphorus Loss}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,80 +14,119 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-  library(VFS)
 ```
 
-Vegetated filter strips (VFS) are a best management practice used to trap sediment in agricultural runoff along rivers and streams. The `VFS` package implements the vegetated filter strip model of Haan et al. (1994) in R. The code was used by Gall et al. (2018) in their study of sediment trapping efficiency calculations. 
+The `VFS` package links a series of environmental models: rainfall, runoff, erosion, vegetated filter strip capture, and agricultural phosphorus loss. Vegetated filter strips (VFS) are a best management practice used to trap sediment from agricultural runoff along rivers and streams. 
+ The capabilities of this package are demonstrated for State College, PA. An earlier version of the `VFS` package was used by Gall et al. (2018) in their study of sediment trapping efficiency calculations.
 
-This model simulates runoff and erosion from an agricultural field of specified slope and soil texture, into a vegetated filter strip of specified vegetation type. There are options to store soil water or not, mainly for research and testing purposes. 
+The intent of this package is to identify agricultural areas at high risk for soil and phosphorus loss across large regions, so it is configured by default to use general parameters and return relative risks. For smaller areas, where specific model parameters are known, absolute numbers can be calculated. The models involved, particularly MUSLE (soil erosion) and APLE (phosphorus loss), are widely accepted and used extensively for conservation planning.
 
-## Climate simulation
+```{r config, echo=TRUE}
 
-The `VFS` package includes a simple daily rainfall and temperature generation. The parameters needed can be calculated from daily weather data for the chosen site. The `read.dly` function simplifies the import of GHCN weather station data, and the function `wth.param` can calculate the needed parameters from this or other daily weather data. 
-
-Note that leap days are removed from the data, if present, before the parameters are calculated.
-
-```{r weathgen, echo=TRUE, fig.show="hold", width=6, height=6}
-
-	# state college GHCN data
-	weather <- read.dly(system.file("extdata", "USC00368449.dly", package = "VFS"))
-	weather.param <- wth.param(weather)
-
-	rain.compare <- rainfall(365*5, weather.param)
-	temp.compare <- temperature(365*5, weather.param)
-
-	barplot(rain.compare, col="blue", ylab="Rainfall (mm)")
-	plot(temp.compare, col="red", ylab="Temperature (C)", type="l", xaxt="n")
-	axis(1, at=(0:5 * 365), labels=paste("Year", 1:6))
-```
-
-
-## Description of model
-
-More about the model here.
-
-```{r vfs, echo=TRUE, fig.show="hold"}
-
+	library(VFS)
 	data(soildat)
 	data(bufferdat)
 
-	# bluegrass buffer, clay loam soil
-	vfs.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass"), Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
-
-	vfs.CL
-
-	unlist(summary(vfs.CL))
-
-```
-
-The model can be run to calculate erosion only, without a VFS. The `print` and `summary` methods show only the relevant information.
-
-```{r erosion, echo=TRUE, fig.show="hold"}
-
-	erosion.CL <- VFSsim(nyears = 5, thissoil = subset(soildat, Soil == "CL"), rain=rain.compare, Temp=temp.compare, thisbuffer = NA, Duration = 2, FieldArea = 4000, VFSwidth = 10.7, VFSslope = 0.02, z = 1000, b = 1.5)
-
-	erosion.CL
-
-	unlist(summary(erosion.CL))
-
+	# basic required parameters
+	nyears <- 3
+	FieldArea <- 4000
+	FieldSlope <- 0.05
+	VFSslope <- 0.02
+	VFSwidth <- 15
+	soilP <- 120 
+	soilOM <- 2
 ```
 
 
-The `VFS` package comes with basic parameters for all 12 soil classes, and it's easy to run the model for all of them.
+## Climate simulation
 
-```{r soils, , echo=TRUE, fig.show="hold"}
+The GHCN import function `read.dly` can read daily GHCN data from the GHCN FTP site, or from a local file. If you have a different source of daily weather data to use, that can be imported into R using the appropriate tools. Measured weather data can be used directly in the models, or weather data can be simulated for long periods based on parameters generated from daily weather data containing precipitation, minimum temperature, and maximum temperature by the function `wth.param`.
 
+For this example, ten years of daily weather data is used to calculate parameters for a Markov chain rainfall simulation, and then three years of rainfall are generated. For research use, longer timespans should be used for both parameterization and for simulation, often thirty years of measured data, and 1,000 years for the simulations.
 
-# Run the model for all twelve soil texture classes with default arguments
-	vfs.AllSoil <- lapply(seq_len(nrow(soildat)), function(i)VFSsim(nyears = 5, thissoil = soildat[i,], rain=rain.compare, Temp=temp.compare, thisbuffer = subset(bufferdat, Species == "bluegrass")))
+Note that leap days, if present, are removed from the data before the parameters are calculated.
 
+```{r weathgen, echo=TRUE}
+	# State College, PA GHCN data
+	data("weather") 
+	weather.param <- wth.param(weather, method="markov")
+
+	rainfallSC <- rainfall(365*nyears, weather.param)
+	temperatureSC <- temperature(365*nyears, weather.param)
 ```
+
+```{r weathergenfig, fig.cap="State College, PA, simulated daily weather", echo=FALSE, fig.show="hold", width=6, height=6}
+	temp.mai <- par()$mai
+	temp.mai[3] <- 0.1
+	par(mai = temp.mai)
+
+	barplot(rainfallSC, col="blue", ylab="Rainfall (mm)", xlab="Day")
+	plot(temperatureSC, col="red", ylab="Temperature (C)", type="l", xaxt="n")
+	axis(1, at=(0:2 * 365), labels=paste("Yr", 1:3))
+```
+
+## Runoff, erosion, and filter strip models
+
+Three types of models are implemented in the `VFS` function. Runoff is calculated as a function of daily soil water balance, given crop growth, soil texture, and rainfall. Two erosion models are run automatically, a discharge-concentration (C-Q) model, and `MUSLE`. For this demonstration, the State College weather simulations is used in conjunction with each of the twelve standard soil texture classes. The output of the erosion models becomes input of the vegetated filter strip model.
+
+
+```{r vfs, echo=TRUE}
+	# bluegrass filter strip
+	vfsSC <- lapply(seq_len(nrow(soildat)), function(i)
+		VFS(nyears=nyears, thissoil=soildat[i,],
+		thisbuffer=subset(bufferdat, Species == "bluegrass"), 
+		rain=rainfallSC, temperature=temperatureSC, FieldArea=FieldArea,
+		VFSwidth=VFSwidth, VFSslope=VFSslope, FieldSlope=FieldSlope, b=1.5))
+	names(vfsSC) <- soildat$Soil
+
+	vfsSC.summary <- data.frame(t(sapply(vfsSC, summary)))
+```
+
+```{r VFSfig, fig.cap="VFS efficacy at sediment removal by soil texture", echo=FALSE, fig.show="hold", width=7, height=6}
+	temp.mai <- par()$mai
+	temp.mai[3] <- 0.1
+	par(mai = temp.mai)
+
+	plot(c(100, 600), c(0, 100), type="n", xlab="Annual runoff (mm)", ylab="TLR (%)", xlim=c(100, 600), ylim=c(0, 100))
+	with(vfsSC.summary, points(Runoff, TLR, col="darkgreen", pch=0))
+
+	
+	with(vfsSC.summary, text(Runoff, TLR - 5, row.names(vfsSC.summary), cex=.5))
+```
+
+
+## Agricultural phosphorus loss
+
+The annual runoff and MUSLE sediment loss values (before and after the filter strip) are passed to the `APLE` function, which calculates agricultural P loss through erosion, and total P loss. Each field was assumed to have the same fertilizer and manure applications.
+
+
+```{r APLE1, echo=TRUE}
+	apleSC <- lapply(vfsSC, function(x)VFSAPLE(x, soilP=soilP, OM=soilOM))
+	names(apleSC) <- soildat$Soil
+
+	apleSC.summary <- data.frame(t(sapply(apleSC, summary)))
+```
+
+
+```{r APLEfig, fig.cap="VFS efficacy at removing phosphorus", echo=FALSE, fig.show="hold", width=7, height=6}
+	temp.mai <- par()$mai
+	temp.mai[3] <- 0.1
+	par(mai = temp.mai)
+
+	plot(c(0, 100), c(0, 100), type="n", xlab="Sediment removed (%)", ylab="Phosphorus removed (%)", xlim=c(0, 100), ylim=c(0, 100))
+	points(vfsSC.summary$MUSLETLR, apleSC.summary$AnnualErosionPRemoval, pch=0, col="darkgreen", cex=1.5)
+	abline(c(0,1), lty=2, col="gray")
+
+	points(vfsSC.summary$MUSLETLR, apleSC.summary$AnnualTotalPRemoval, pch=15, col="darkgreen", cex=1.5)
+
+	text(vfsSC.summary$MUSLETLR, apleSC.summary$AnnualTotalPRemoval-6, row.names(vfsSC.summary), cex=.5)
+
+	legend("topleft", pch=c(0, 15), col="darkgreen", legend=c("Erosion P", "Total P"))
+```
+
 
 
 ## References
 
-Haan C.T., Barfield B.J., Hayes J.C. 1994. Design hydrology and sedimentology for small catchments. Acad. Press, San Diego
-
-Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj, C., and Patterson, P.H. 2018. The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. Stoch Environ Res Risk Assess https://doi.org/10.1007/s00477-017-1505-x."
+Gall, H. E., Schultz, D., Veith, T. L, Goslee, S. C., Mejia, A., Harman, C. J., Raj, C., and Patterson, P. H. 2018. The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. Stoch Environ Res Risk Assess 32(8): 2369--2380. \doi 10.1007/s00477-017-1505-x
 
