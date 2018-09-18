@@ -1,6 +1,6 @@
 # Daily MUSLE sediment loss
 
-MUSLE <- function(Q, qp, A, C = 0.085, P = 0.40, K, LS) {
+MUSLE <- function(Q, qp, A, K, LS, C = 0.085, P = 0.40, a = 11.8, b = 0.56) {
 
 # Q: runoff volume - m3/day
 # qp: runoff peak discharge m3/s
@@ -8,7 +8,7 @@ MUSLE <- function(Q, qp, A, C = 0.085, P = 0.40, K, LS) {
 # returns S: Sediment yield - t/day
 
 
-    11.8 * (Q * qp * A) ^ 0.56 * (C * P * K * LS)
+    a * (Q * qp * A) ^ b * (C * P * K * LS)
 
 }
 
