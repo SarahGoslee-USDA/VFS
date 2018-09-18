@@ -31,8 +31,4 @@ to
 
 While the models can be calibrated for particular fields, the main objective is to assess the relative effect of vegetated filter strips on soil erosion and phosphorus loss under different soil texture and climatic conditions. Our focus is on regional identification of high risk areas and assessment the role of vegetated filter strips as a best management practice, rather than on accurately simulating particular field conditions.
 
-## To do
-
-- Documentation for MUSLE and APLE functions.
-- More extensive testing.
 
