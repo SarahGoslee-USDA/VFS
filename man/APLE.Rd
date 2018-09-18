@@ -62,9 +62,7 @@ The units match those of the original spreadsheet.
 
 }
 \references{
-Vadas, P.A., L.W. Good, P.A. Moore, Jr., and N. Widman. 2009. Estimating phosphorus loss in runoff from manure and fertilizer for a phosphorus loss quantification tool. J. Environ. Qual. 38:1645-1653. doi:10.2134/jeq2008.0337
-
-APLE Model Website https://www.ars.usda.gov/midwest-area/madison-wi/us-dairy-forage-research-center/docs/aple-homepage/ (Accessed 15 Sept 2018).
+Vadas, P. A., Good, L. W., Moore, P. A., Jr. and Widman, N. (2009) Estimating phosphorus loss in runoff from manure and fertilizer for a phosphorus loss quantification tool. \emph{J Environ Qual} \bold{38}, 1645--1653. \doi{10.2134/jeq2008.0337}
 }
 \author{
 Sarah Goslee

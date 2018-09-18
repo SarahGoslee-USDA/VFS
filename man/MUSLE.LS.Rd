@@ -22,7 +22,7 @@ MUSLE.LS(FieldLength, FieldSlope)
     MUSLE landscape factor LS.
 }
 \references{
-Wischmeier, W. H., and Smith, D.D. 1978. Predicting rainfall erosion losses-a guide to conservation planning. U.S. Department of Agriculture, Agriculture Handbook No. 537.
+Wischmeier, W. H. and Smith, D. D. (1978) \emph{Predicting rainfall erosion losses-a guide to conservation planning.} U.S. Department of Agriculture, Agriculture Handbook No. 537.
 }
 \author{
 Sarah Goslee

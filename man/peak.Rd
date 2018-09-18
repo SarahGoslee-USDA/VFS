@@ -25,7 +25,7 @@ peak(intensity, area, c = 0.25)
     Peak discharge (m^3/s).
 }
 \references{
-Hromadka, T.V, II, and R. J. Whitley. 1994. The rational method for peak flow rate estimation. Water Resources Bulletin 30(6):1001-1009.
+Hromadka, T. V, II and Whitley, R. J. (1994) The rational method for peak flow rate estimation. \emph{Water Res Bull} \bold{30}(6), 1001--1009.
 }
 \author{
     Sarah Goslee

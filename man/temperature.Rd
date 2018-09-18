@@ -33,7 +33,7 @@
 	Heather Gall and Sarah Goslee
 }
 \references{
-Grimenes, A. and O. Nissen. 2004. Mathematical modeling of the annual temperature wave based on monthly mean temperatures, and comparisons between local climate trends at seven Norwegian stations. Theor Appl Climatol 78:229-246. doi:10.1007/s00704-004-0036-9
+Grimenes, A. and Nissen, O. (2004) Mathematical modeling of the annual temperature wave based on monthly mean temperatures, and comparisons between local climate trends at seven Norwegian stations. \emph{Theor Appl Climatol} \bold{78}, 229--246. \doi{10.1007/s00704-004-0036-9}
 }
 
 

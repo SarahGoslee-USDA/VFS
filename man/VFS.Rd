@@ -116,16 +116,13 @@ Returns an object of class VFS, comprising:
     \item{Ftannualavg}{The average of all per-event trapping efficiencies over the course of one year.}
 }
 \references{
+Gall, H. E., Schultz, D., Veith, T. L, Goslee, S. C., Mejia, A., Harman, C. J., Raj, C. and Patterson, P. H. (2018) The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. \emph{Stoch Environ Res Risk Assess} \bold{32}(8), 2369--2380. \doi{10.1007/s00477-017-1505-x}
 
-Haan C.T., Barfield B.J., Hayes J.C. 1994. Design hydrology and sedimentology for small catchments. Acad. Press, San Diego
+Haan C. T., Barfield B. J. and Hayes J. C. (1994) \emph{Design hydrology and sedimentology for small catchments.} Acad Press, San Diego.
 
-Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj, C., and Patterson, P.H. 2018. The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. Stoch Environ Res Risk Assess doi:10.1007/s00477-017-1505-x
+Williams, J. R. (1975) Sediment-yield prediction with universal equation using runoff energy factor. Pp. 244--251 in: \emph{Present and prospective technology for predicting sediment yield and sources.} ARS.S-40, US Gov. Print. Office, Washington, DC. 244-252.
 
-Williams JR. 1975. Sediment-yield prediction with universal equation using runoff energy factor. Pp. 244-251 In: Present and prospective technology for predicting sediment yield and sources. ARS.S-40, US Gov. Print. Office, Washington, DC. 244-252.
-
-Wischmeier, W. H., and Smith, D.D. 1978. Predicting rainfall erosion losses-a guide to conservation planning. U.S. Department of Agriculture, Agriculture Handbook No. 537
-
-
+Wischmeier, W. H. and Smith, D. D. (1978) \emph{Predicting rainfall erosion losses-a guide to conservation planning.} U.S. Department of Agriculture, Agriculture Handbook No. 537.
 }
 \author{
 	Heather Gall, Sarah Goslee, and Tamie Veith

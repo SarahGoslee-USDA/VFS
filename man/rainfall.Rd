@@ -30,9 +30,9 @@
 	The rainfall simulation currently offers choice of two methods: the simple Poisson model of Rodriguez-Iturbe et al. (1999), and the Markov chain model of Nicks (1974). The latter rainfall calculation is used by the APEX farm model, among others, and is based on monthly statistics.
 }
 \references{
-	Rodriguez-Iturbe, I., A. Porporato, L. Ridolfi, V. Isham, and D. R. Coxi. 1999. Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. Proc. Royal Soc. A. 455: 269-288.
+Rodriguez-Iturbe, I., Porporato, A., Ridolfi, L., Isham, V. and Coxi, D. R. (1999) Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. \emph{Proc Royal Soc A} \bold{455}, 269--288.
 
-	Nicks, A.D. 1974. Stochastic generation of the occurrence, pattern and location of maximum amount of daily rainfall. Pp. 154-171 in: Proceedings Symposium on Statistical Hydrology. USDA Agricultural Research Service Miscellaneous Publication No. 1275, Washington, DC.
+Nicks, A. D. (1974) Stochastic generation of the occurrence, pattern and location of maximum amount of daily rainfall. Pp. 154--171 in: \emph{Proceedings Symposium on Statistical Hydrology.} USDA Agricultural Research Service Miscellaneous Publication No. 1275, Washington, DC.
 }
 
 \author{

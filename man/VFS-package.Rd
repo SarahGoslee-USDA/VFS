@@ -20,9 +20,7 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{VFS}
 }
 \references{
-
-Gall, H.E., Schultz, D., Veith, T.L, Goslee, S.C., Mejia, A., Harman, C.J., Raj, C., and Patterson, P.H. 2018. The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. Stoch Environ Res Risk Assess https://doi.org/10.1007/s00477-017-1505-x.
-
+Gall, H. E., Schultz, D., Veith, T. L, Goslee, S. C., Mejia, A., Harman, C. J., Raj, C. and Patterson, P. H. (2018) The effects of disproportional load contributions on quantifying vegetated filter strip sediment trapping efficiencies. \emph{Stoch Environ Res Risk Assess} \bold{32}(8), 2369--2380. \doi{10.1007/s00477-017-1505-x}
 }
 \keyword{ package }
 

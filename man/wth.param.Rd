@@ -82,9 +82,9 @@ wth.param(dly, llim = 0, method = "poisson", year.col = "YEAR",
 NOTE: For reasons of time and space, the example contains only ten years of daily weather data. We suggest using thirty years for estimating parameter values.
 }
 \references{
-Rodriguez-Iturbe, I., A. Porporato, L. Ridolfi, V. Isham, and D. R. Coxi. 1999. Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. Proc. Royal Soc. A. 455: 269-288.
+Rodriguez-Iturbe, I., Porporato, A., Ridolfi, L., Isham, V. and Coxi, D. R. (1999) Probabilistic modelling of water balance at a point: the role of climate, soil and vegetation. \emph{Proc Royal Soc A} \bold{455}, 269--288.
 
-Nicks, A.D. 1974. Stochastic generation of the occurrence, pattern and location of maximum amount of daily rainfall. Pp. 154-171 in: Proceedings Symposium on Statistical Hydrology. USDA Agricultural Research Service Miscellaneous Publication No. 1275, Washington, DC.
+Nicks, A. D. (1974) Stochastic generation of the occurrence, pattern and location of maximum amount of daily rainfall. Pp. 154--171 in: \emph{Proceedings Symposium on Statistical Hydrology.} USDA Agricultural Research Service Miscellaneous Publication No. 1275, Washington, DC.
 }
 \author{
 	Sarah Goslee

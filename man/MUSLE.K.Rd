@@ -27,7 +27,7 @@ MUSLE.K(fc, fm, ff)
     Returns the soil erodibility factor K.
 }
 \references{
-Wischmeier, W.H., and Smith, D.D. 1978. Predicting rainfall erosion losses-a guide to conservation planning. U.S. Department of Agriculture, Agriculture Handbook No. 537.
+Wischmeier, W. H. and Smith, D. D. (1978) \emph{Predicting rainfall erosion losses-a guide to conservation planning.} U.S. Department of Agriculture, Agriculture Handbook No. 537.
 }
 \author{
     Sarah Goslee
