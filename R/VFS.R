@@ -113,7 +113,9 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
 
     # Vegetated Buffer Parameters
 
-    if(!all(is.na(thisbuffer))) {
+    hasbuffer <- !(is.na(thisbuffer[1]))
+
+    if(hasbuffer) {
         bg <- thisbuffer$bg / 12
         n <- thisbuffer$n
     } else {
@@ -249,7 +251,7 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
 	}
 
 
-        if(!all(is.na(thisbuffer))) {
+        if(hasbuffer) {
             ## Flow through VFS
 	    if(runoff[i] > 0) {
 		q <- Q[i]
@@ -342,7 +344,7 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
         colnames(AnnualLoadIn) <- bnames
 
 
-        if(!all(is.na(thisbuffer))) {
+        if(hasbuffer) {
 
             # multiple b values
             # VFS model
@@ -401,7 +403,7 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
         colnames(AnnualLoadIn) <- bnames
 
 
-        if(!all(is.na(thisbuffer))) {
+        if(hasbuffer) {
 
             # one b value
             # VFS model
@@ -453,7 +455,7 @@ function(nyears = 1000, thissoil, thisbuffer, rain, temperature, Duration = 2, F
 
     AnnualLoadInMUSLE <- aggregate(musle, by=list(date.Year), sum)[, -1, drop = FALSE]
 
-    if(!all(is.na(thisbuffer))) {
+    if(hasbuffer) {
 
         # VFS model
 
