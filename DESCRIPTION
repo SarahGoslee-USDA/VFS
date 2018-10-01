@@ -10,9 +10,9 @@ Depends: R (>= 3.4.0)
 Imports: stats, graphics, e1071, nleqslv (>= 3.3.0)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
-Empirical models for runoff, erosion, and phosphorus loss across a 
-    vegetated filter strip, given slope, soils, climate, and filter 
-    strip composition (Gall et al., 2018) <doi:10.1007/s00477-017-1505-x>. 
+Description: Empirical models for runoff, erosion, and phosphorus loss 
+    across a vegetated filter strip, given slope, soils, climate, and 
+    vegetation (Gall et al., 2018) <doi:10.1007/s00477-017-1505-x>. 
     It also includes functions for deriving climate parameters from 
     measured daily weather data, and for simulating rainfall. Models 
     implemented include MUSLE (Williams, 1975) and APLE (Vadas et al., 
