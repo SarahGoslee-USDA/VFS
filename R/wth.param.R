@@ -17,7 +17,7 @@ wth.param <- function(dly, llim = 0, method = "poisson", year.col = "YEAR", mont
     dly <- dly[!(dly[[month.col]] == 2 & dly[[day.col]] == 29), ]
 
     # remove partial years at beginning and end
-    dly <- dly[seq(min(which(dly$MONTH == 1 & dly$DAY == 1)), max(which(dly$MONTH == 12 & dly$DAY == 31))), ]
+    dly <- dly[seq(min(which(dly[[month.col]] == 1 & dly[[day.col]] == 1)), max(which(dly[[month.col]] == 12 & dly[[day.col]] == 31))), ]
 
 
     # temperature parameters
