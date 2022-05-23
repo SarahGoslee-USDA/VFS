@@ -59,6 +59,9 @@ rainfall <- function(ndays, thiswth, months) {
             }
         }
     }
+    rain[is.na(rain)] <- 0
+    rain[is.nan(rain)] <- 0
+    
     rain
 }
 
