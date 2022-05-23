@@ -132,6 +132,7 @@ wth.param <- function(dly, llim = 0, method = "poisson", year.col = "YEAR", mont
          # set NA and NaN values to 0 (caused by months with no precipitation)
       results <- apply(results, 2, function(x){x[is.nan(x)] <- 0; x})
       results[is.na(results)] <- 0
+      results <- data.frame(results)
                                                           
     }
 
