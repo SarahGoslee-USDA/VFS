@@ -128,7 +128,11 @@ wth.param <- function(dly, llim = 0, method = "poisson", year.col = "YEAR", mont
             prcpwet = prdays,
             prcpww = prww,
             prcpdw = prdw)
-
+                                                                
+         # set NA and NaN values to 0 (caused by months with no precipitation)
+      results <- apply(results, 2, function(x){x[is.nan(x)] <- 0; x})
+      results[is.na(results)] <- 0
+                                                          
     }
 
     list(params = results, temperature = list(A = A, B = B, C = C), llim = llim, start = min(yearlist), end = max(yearlist))
